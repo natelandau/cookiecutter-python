@@ -11,7 +11,10 @@ from {{ cookiecutter.__package_name_snake_case }}._utils import alerts
 from {{ cookiecutter.__package_name_snake_case }}._utils.alerts import logger as log
 
 {%- if cookiecutter.python_version.split(".")[1] | int  <= 10 %}
-import tomli as tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib  # type: ignore [no-redef]
 {%- else %}
 import tomllib
 {%- endif %}
