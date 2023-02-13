@@ -1,3 +1,10 @@
+# Scratch folder for temporary files
+scratch/
+
+# Caches
+*_cache/
+__pycache__/
+
 # Coverage.py
 htmlcov/
 reports/
@@ -12,14 +19,8 @@ reports/
 *.xls*
 *.zip*
 
-# direnv
 .envrc
-
-# dotenv
 .env
-
-# Hypothesis
-.hypothesis/
 
 # Jupyter
 *.ipynb
@@ -31,7 +32,6 @@ notebooks/
 
 # mypy
 .dmypy.json
-.mypy_cache/
 
 # Node.js
 node_modules/
@@ -46,12 +46,8 @@ dist/
 # pyenv
 .python-version
 
-# pytest
-.pytest_cache/
-
 # Python
-__pycache__/
 *.py[cdo]
 
-# Terraform
-.terraform/
+# act run workflows locally
+bin/act

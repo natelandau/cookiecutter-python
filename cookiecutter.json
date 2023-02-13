@@ -1,0 +1,11 @@
+{
+  "package_name": "My Package",
+  "package_description": "A Python package that ...",
+  "package_url": "https://some.url/to/the/package.git",
+  "author_name": "John Smith",
+  "author_email": "john@example.com",
+  "python_version": "3.11",
+  "install_jupyter": ["True", "False"],
+  "__package_name_kebab_case": "{{ cookiecutter.package_name|slugify }}",
+  "__package_name_snake_case": "{{ cookiecutter.package_name|slugify(separator='_') }}"
+}

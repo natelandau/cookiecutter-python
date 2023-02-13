@@ -1,0 +1,67 @@
+---
+name: "Test Cruft Create"
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths-ignore:
+            - "*.md"
+            - "*.yaml"
+            - "*.yml"
+    pull_request:
+        types:
+            - opened
+            - reopened
+            - synchronize
+        paths-ignore:
+            - "*.md"
+            - "*.yaml"
+            - "*.yml"
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    test-cruft-create:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: true
+            matrix:
+                python-version: ["3.10", "3.11"]
+        name: Python ${{ matrix.python-version }}
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup Python and Poetry
+              uses: ./.github/actions/setup-poetry
+
+            - name: Run cruft create
+              run: |
+                  poetry run cruft create --no-input --extra-context '{"python_version": "3.10", "install_jupyter": "False"}' .
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "16"
+
+            - name: Install @devcontainers/cli
+              run: npm install --location=global @devcontainers/cli
+
+            - name: Start Dev Container with Python ${{ matrix.python-version }}
+              env:
+                  DOCKER_BUILDKIT: 1
+              run: |
+                  git config --global init.defaultBranch main
+                  git init
+                  git checkout -b test
+                  git add .
+                  VARIANT=${{ matrix.python-version }} devcontainer up --workspace-folder .
+              working-directory: ./my-package/
+
+            - name: Test package
+              run: devcontainer exec --workspace-folder my-package poetry run poe test
