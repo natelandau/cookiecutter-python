@@ -4,7 +4,7 @@ default_stages: [commit, manual]
 fail_fast: true
 repos:
     - repo: "https://github.com/commitizen-tools/commitizen"
-      rev: v2.42.0 # automatically updated by Commitizen
+      rev: v2.42.1 # automatically updated by Commitizen
       hooks:
           - id: commitizen
           - id: commitizen-branch
