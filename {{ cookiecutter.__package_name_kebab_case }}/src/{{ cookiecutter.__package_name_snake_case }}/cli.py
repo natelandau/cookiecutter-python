@@ -1,7 +1,7 @@
 """{{ cookiecutter.package_name }} CLI."""
 
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import typer
 
@@ -59,7 +59,7 @@ def main(
         show_default=True,
     ),
     verbosity: int = typer.Option(
-        1,
+        0,
         "-v",
         "--verbose",
         show_default=False,
@@ -77,10 +77,17 @@ def main(
         verbosity,
         log_to_file,
     )
-    config: Config = Config(config_path=config_file)
-    log.trace(f"Loaded config: {config}")
-    log.trace(f"dry_run: {dry_run}")
-    log.trace(f"force: {force}")
+    context: dict[str, Any] = {
+        "dry_run": dry_run,
+        "force": force,
+    }
+    log.trace(f"Context: {context}")
+    config: Config = Config(
+        config_path=config_file,
+        context=context,
+    )
+    log.debug(f"Loaded config: {config_file}")
+    log.trace(f"Config: {config}")
 
     if message != "":
         typer.echo(message)

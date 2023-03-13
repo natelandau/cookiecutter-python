@@ -26,19 +26,28 @@ PATH_CONFIG_DEFAULT = Path(__file__).parent / "default_config.toml"
 class Config:
     """Representation of a configuration file."""
 
-    def __init__(self, config_path: Path = None) -> None:
+    def __init__(
+        self,
+        config_path: Path = None,
+        context: dict[str, Any] = {},
+    ) -> None:
         """Initialize configuration file."""
-        self.config_path = config_path.expanduser().resolve()
+        self.config_path = config_path.expanduser().resolve() if config_path else None
+        self.context = context
+        self.dry_run = self.context["dry_run"] if "dry_run" in self.context else False
+        self.force = self.context["force"] if "force" in self.context else False
 
-        if not self.config_path.exists():
+        if not config_path or not self.config_path.exists():
             self._create_config()
 
-        self.config_dict = self._load_config()
-        self._validate_config()
+        self.config = self._load_config()
 
     def __rich_repr__(self) -> rich.repr.Result:
         """Return the representation of the configuration file."""
-        yield "config_dict", self.config_dict
+        yield "config", self.config
+        yield "context", self.context
+        yield "dry_run", self.dry_run
+        yield "force", self.force
         yield "config_path", self.config_path
 
     def _create_config(self) -> None:
@@ -58,13 +67,13 @@ class Config:
         log.debug(f"Loading configuration from {self.config_path}")
         with self.config_path.open("rb") as f:
             try:
-                return tomllib.load(f)
+                config = tomllib.load(f)
             except tomllib.TOMLDecodeError as e:
                 log.exception(f"Could not parse '{self.config_path}'")
                 raise typer.Exit(code=1) from e
 
-    def _validate_config(self) -> None:
-        """Validate the configuration file."""
-        if self.config_dict == {}:
+        if config == {}:
             log.error(f"Configuration file '{self.config_path}' is empty or malformed")
             raise typer.Exit(code=1)
+
+        return config
