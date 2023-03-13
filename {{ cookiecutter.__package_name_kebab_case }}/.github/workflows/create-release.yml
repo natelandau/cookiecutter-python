@@ -61,6 +61,7 @@ jobs:
                   echo $TAG
                   echo $PROJECT_VERSION
                   if [[ "$TAG" != "v$PROJECT_VERSION" ]]; then exit 1; fi
+                  echo "current_tag=refs/tags/${TAG}" >> $GITHUB_ENV
 
             # ----------------------------------------------
             # Test and then build the package
@@ -98,7 +99,7 @@ jobs:
             - name: Create Release Draft
               uses: softprops/action-gh-release@v1
               with:
-                  body_path: ".github/RELEASE-TEMPLATE.md"
+                  body: ${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}
                   draft: true
                   files: |
                       dist/*-${{env.PROJECT_VERSION}}-py3-none-any.whl
