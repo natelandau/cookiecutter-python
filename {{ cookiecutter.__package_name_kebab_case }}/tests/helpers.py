@@ -31,6 +31,7 @@ class Regex:
         """Error printed on failed tests."""
         return f"Regex: '{self._regex.pattern}'"
 
+
 class KeyInputs:
     """Key inputs for testing."""
 

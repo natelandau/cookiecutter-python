@@ -230,10 +230,9 @@
             shell = "yamllint ."
 
         [[tool.poe.tasks.lint.sequence]]
-
+            shell = "interrogate -c pyproject.toml ."
 
 {%- if cookiecutter.install_jupyter == "True" %}
-            shell = "interrogate -c pyproject.toml ."
 [tool.poe.tasks.lab]
     help = "Run Jupyter Lab"
 
@@ -241,14 +240,13 @@
         cmd = "mkdir -p notebooks"
 
     [[tool.poe.tasks.lab.sequence]]
-
-
-{%- endif %}
         cmd = """
                 jupyter lab
                     --allow-root
                     --notebook-dir notebooks
                 """
+{%- endif %}
+
 [tool.poe.tasks.test]
     help = "Test this package"
 
