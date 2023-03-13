@@ -7,8 +7,7 @@ from textwrap import wrap
 import rich.repr
 import typer
 from loguru import logger
-from rich import print
-
+from {{ cookiecutter.__package_name_snake_case }}.utils.console import console
 
 class LogLevel(Enum):
     """Enum for log levels."""
@@ -38,7 +37,7 @@ def dryrun(msg: str) -> None:
     Args:
         msg: Message to print
     """
-    print(f"[cyan]DRYRUN   | {msg}[/cyan]")
+    console.print(f"[cyan]DRYRUN   | {msg}[/cyan]")
 
 
 def success(msg: str) -> None:
@@ -47,7 +46,7 @@ def success(msg: str) -> None:
     Args:
         msg: Message to print
     """
-    print(f"[green]SUCCESS  | {msg}[/green]")
+    console.print(f"[green]SUCCESS  | {msg}[/green]")
 
 
 def warning(msg: str) -> None:
@@ -56,7 +55,7 @@ def warning(msg: str) -> None:
     Args:
         msg: Message to print
     """
-    print(f"[yellow]WARNING  | {msg}[/yellow]")
+    console.print(f"[yellow]WARNING  | {msg}[/yellow]")
 
 
 def error(msg: str) -> None:
@@ -65,7 +64,7 @@ def error(msg: str) -> None:
     Args:
         msg: Message to print
     """
-    print(f"[red]ERROR    | {msg}[/red]")
+    console.print(f"[red]ERROR    | {msg}[/red]")
 
 
 def notice(msg: str) -> None:
@@ -74,7 +73,7 @@ def notice(msg: str) -> None:
     Args:
         msg: Message to print
     """
-    print(f"[bold]NOTICE   | {msg}[/bold]")
+    console.print(f"[bold]NOTICE   | {msg}[/bold]")
 
 
 def info(msg: str) -> None:
@@ -83,7 +82,7 @@ def info(msg: str) -> None:
     Args:
         msg: Message to print
     """
-    print(f"INFO     | {msg}")
+    console.print(f"INFO     | {msg}")
 
 
 def usage(msg: str, width: int = 80) -> None:
@@ -95,9 +94,9 @@ def usage(msg: str, width: int = 80) -> None:
     """
     for _n, line in enumerate(wrap(msg, width=width)):
         if _n == 0:
-            print(f"[dim]USAGE    | {line}")
+            console.print(f"[dim]USAGE    | {line}")
         else:
-            print(f"[dim]         | {line}")
+            console.print(f"[dim]         | {line}")
 
 
 def debug(msg: str) -> None:
@@ -106,7 +105,7 @@ def debug(msg: str) -> None:
     Args:
         msg: Message to print
     """
-    print(f"[blue]DEBUG    | {msg}[/blue]")
+    console.print(f"[blue]DEBUG    | {msg}[/blue]")
 
 
 def dim(msg: str) -> None:
@@ -115,7 +114,7 @@ def dim(msg: str) -> None:
     Args:
         msg: Message to print
     """
-    print(f"[dim]{msg}[/dim]")
+    console.print(f"[dim]{msg}[/dim]")
 
 
 def _log_formatter(record: dict) -> str:
@@ -125,9 +124,12 @@ def _log_formatter(record: dict) -> str:
         or record["level"].name == "SUCCESS"
         or record["level"].name == "WARNING"
     ):
-        return "<level>{level: <8}</level> | <level>{message}</level>\n{exception}"
+        return "<level><normal>{level: <8} | {message}</normal></level>\n{exception}"
 
-    return "<level>{level: <8}</level> | <level>{message}</level> <fg #c5c5c5>({name}:{function}:{line})</fg #c5c5c5>\n{exception}"
+    if record["level"].name == "TRACE" or record["level"].name == "DEBUG":
+        return "<level><normal>{level: <8} | {message}</normal></level> <fg #c5c5c5>({name}:{function}:{line})</fg #c5c5c5>\n{exception}"
+
+    return "<level>{level: <8} | {message}</level> <fg #c5c5c5>({name}:{function}:{line})</fg #c5c5c5>\n{exception}"
 
 
 @rich.repr.auto
@@ -151,7 +153,7 @@ class LoggerManager:
     Examples:
         Instantiate the logger:
 
-            logging = _utils.alerts.LoggerManager(
+            logging = utils.alerts.LoggerManager(
                 verbosity,
                 log_to_file,
                 log_file,
@@ -171,7 +173,7 @@ class LoggerManager:
         self.log_level = log_level
 
         if self.log_file == Path("/logs") and self.log_to_file:  # pragma: no cover
-            print("No log file specified")
+            console.print("No log file specified")
             raise typer.Exit(1)
 
         if self.verbosity >= VerboseLevel.TRACE.value:
@@ -239,7 +241,7 @@ class LoggerManager:
         """
         if self.log_level <= LogLevel.TRACE.value:
             if msg:
-                print(msg)
+                console.print(msg)
             return True
         return False
 
@@ -254,7 +256,7 @@ class LoggerManager:
         """
         if self.log_level <= LogLevel.DEBUG.value:
             if msg:
-                print(msg)
+                console.print(msg)
             return True
         return False
 
@@ -269,7 +271,7 @@ class LoggerManager:
         """
         if self.log_level <= LogLevel.INFO.value:
             if msg:
-                print(msg)
+                console.print(msg)
             return True
         return False
 
@@ -284,6 +286,6 @@ class LoggerManager:
         """
         if self.log_level <= LogLevel.WARNING.value:
             if msg:
-                print(msg)
+                console.print(msg)
             return True
         return False  # pragma: no cover

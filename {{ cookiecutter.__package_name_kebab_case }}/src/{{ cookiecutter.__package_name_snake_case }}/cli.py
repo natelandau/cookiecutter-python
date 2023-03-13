@@ -6,9 +6,10 @@ from typing import Optional
 import typer
 
 from {{ cookiecutter.__package_name_snake_case }}.__version__ import __version__
-from {{ cookiecutter.__package_name_snake_case }}._config import Config
-from {{ cookiecutter.__package_name_snake_case }}._utils import alerts
-from {{ cookiecutter.__package_name_snake_case }}._utils.alerts import logger as log
+from {{ cookiecutter.__package_name_snake_case }}.config import Config
+from {{ cookiecutter.__package_name_snake_case }}.utils import alerts
+from {{ cookiecutter.__package_name_snake_case }}.utils.alerts import logger as log
+from {{ cookiecutter.__package_name_snake_case }}.utils.console import console
 
 app = typer.Typer(add_completion=False, no_args_is_help=True, rich_markup_mode="rich")
 
@@ -18,7 +19,7 @@ typer.rich_utils.STYLE_HELPTEXT = ""
 def version_callback(value: bool) -> None:
     """Print version and exit."""
     if value:
-        print(f"{__package__} version: {__version__}")
+        console.print(f"{__package__} version: {__version__}")
         raise typer.Exit()
 
 

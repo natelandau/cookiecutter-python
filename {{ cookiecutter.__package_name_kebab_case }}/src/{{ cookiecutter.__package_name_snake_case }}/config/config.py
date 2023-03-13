@@ -7,8 +7,9 @@ from typing import Any
 import rich.repr
 import typer
 
-from {{ cookiecutter.__package_name_snake_case }}._utils import alerts
-from {{ cookiecutter.__package_name_snake_case }}._utils.alerts import logger as log
+from {{ cookiecutter.__package_name_snake_case }}.utils import alerts
+from {{ cookiecutter.__package_name_snake_case }}.utils.alerts import logger as log
+from {{ cookiecutter.__package_name_snake_case }}.utils.console import console
 
 {%- if cookiecutter.python_version.split(".")[1] | int  <= 10 %}
 try:
