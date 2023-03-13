@@ -3,7 +3,7 @@
     requires      = ["poetry-core>=1.0.0"]
 
 [tool.poetry]
-    authors = ["{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>",]
+    authors     = ["{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>"]
     description = "{{ cookiecutter.package_description }}"
     homepage    = "{{ cookiecutter.package_url }}"
     keywords    = []
@@ -18,11 +18,11 @@
 
     [tool.poetry.dependencies]
 {%- if cookiecutter.install_jupyter == "True" %}
-        jupyterlab = "^3.6.1"
+        jupyterlab  = "^3.6.1"
 {%- endif %}
         loguru      = "^0.6.0"
         python      = "^{{ cookiecutter.python_version }}"
-        rich        = "^13.3.1"
+        rich        = "^13.3.2"
         shellingham = "^1.4.0"
 {%- if cookiecutter.python_version.split(".")[1] | int  <= 10 %}
         tomli       = "^2.0.1"
@@ -42,17 +42,18 @@
 {%- else %}
         black                 = "^23.1.0"
 {%- endif %}
-        commitizen            = "^2.42.0"
+        commitizen            = "^2.42.1"
         coverage              = "^7.1.0"
         interrogate           = "^1.5.0"
-        mypy                  = "^1.0.1"
+        mypy                  = "^1.1.1"
         pdoc                  = "^12.3.1"
         poethepoet            = "^0.18.1"
-        pre-commit            = "^3.0.4"
-        ruff                  = "^0.0.252"
+        pre-commit            = "^3.1.1"
+        pysnooper             = "^1.1.1"
+        ruff                  = "^0.0.254"
         shellcheck-py         = "^0.9.0.2"
         typeguard             = "^2.13.3"
-        types-python-dateutil = "^2.8.19.6"
+        types-python-dateutil = "^2.8.19.10"
         vulture               = "^2.7"
 
 [tool.ruff] # https://github.com/charliermarsh/ruff
@@ -211,7 +212,7 @@
         help = "Lint this package"
 
         [[tool.poe.tasks.lint.sequence]]
-            shell = "ruff --extend-ignore=I001,D301,D401,PLR2004,PLR0913 src/"
+            shell = "ruff --extend-ignore=I001,D301,D401 src/"
 
         [[tool.poe.tasks.lint.sequence]]
             shell = "black --check src/ tests/"
