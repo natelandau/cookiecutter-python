@@ -30,11 +30,12 @@
         typer       = "^0.7.0"
 
     [tool.poetry.group.test.dependencies]
-        pytest                 = "^7.2.1"
+        coverage              = "^7.2.2"
+        pytest                 = "^7.2.2"
         pytest-clarity         = "^1.0.1"
         pytest-mock            = "^3.10.0"
         pytest-pretty-terminal = "^1.1.0"
-        pytest-xdist           = "^3.1.0"
+        pytest-xdist           = "^3.2.1"
 
     [tool.poetry.group.dev.dependencies]
 {%- if cookiecutter.install_jupyter == "True" %}
@@ -43,17 +44,15 @@
         black                 = "^23.1.0"
 {%- endif %}
         commitizen            = "^2.42.1"
-        coverage              = "^7.1.0"
         interrogate           = "^1.5.0"
         mypy                  = "^1.1.1"
         pdoc                  = "^12.3.1"
         poethepoet            = "^0.18.1"
-        pre-commit            = "^3.1.1"
+        pre-commit            = "^3.2.0"
         pysnooper             = "^1.1.1"
         ruff                  = "^0.0.256"
         shellcheck-py         = "^0.9.0.2"
-        typeguard             = "^2.13.3"
-        types-python-dateutil = "^2.8.19.10"
+        typeguard             = "^3.0.1"
         vulture               = "^2.7"
 
 

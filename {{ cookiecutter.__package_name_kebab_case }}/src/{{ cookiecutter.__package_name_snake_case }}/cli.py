@@ -67,7 +67,7 @@ def main(
         count=True,
     ),
     message: str = "",
-    version: Optional[bool] = typer.Option(
+    version: Optional[bool] = typer.Option( # noqa: ARG001
         None, "--version", help="Print version and exit", callback=version_callback, is_eager=True
     ),
 ) -> None:
