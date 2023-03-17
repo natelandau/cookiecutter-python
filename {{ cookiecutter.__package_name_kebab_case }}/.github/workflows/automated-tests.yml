@@ -43,8 +43,8 @@ jobs:
                   egress-policy: block
                   disable-sudo: true
                   allowed-endpoints: >
-                      api.snapcraft.io:443
                       api.github.com:443
+                      api.snapcraft.io:443
                       codecov.io:443
                       files.pythonhosted.org:443
                       github.com:443
@@ -56,6 +56,10 @@ jobs:
 
             - name: Checkout repository
               uses: actions/checkout@v3
+
+            # ----------------------------------------------
+            #    install dependencies
+            # ----------------------------------------------
 
             - name: Setup Python and Poetry
               uses: ./.github/actions/setup-poetry
@@ -83,7 +87,7 @@ jobs:
             #             upload coverage stats
             # ----------------------------------------------
             - name: Upload coverage
-              if: github.ref == 'refs/heads/main'
+              if: github.ref == 'refs/heads/main' && matrix.python-version == '{{ cookiecutter.python_version.split(".")[0] }}.{{ cookiecutter.python_version.split(".")[1] }}''
               uses: codecov/codecov-action@v3
 {%- raw %}
               with:

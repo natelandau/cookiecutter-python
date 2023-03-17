@@ -22,7 +22,7 @@ _mainScript_() {
 
     echo ""
     header "Install apt packages"
-    _execute_ "sudo apt-get update"
+    _execute_ "sudo apt-get update -y"
     _execute_ "sudo apt-get upgrade -y"
     for package in "${APT_PACKAGES[@]}"; do
         _execute_ -p "sudo apt-get install -y \"${package}\""

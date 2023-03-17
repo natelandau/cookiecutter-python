@@ -39,7 +39,6 @@ repos:
           - id: check-shebang-scripts-are-executable
           - id: check-symlinks
           - id: check-toml
-            exclude: broken_config_file\.toml
           - id: check-vcs-permalinks
           - id: check-xml
           - id: check-yaml
@@ -61,7 +60,7 @@ repos:
             entry: yamllint --strict --config-file .yamllint.yml
 
     - repo: "https://github.com/charliermarsh/ruff-pre-commit"
-      rev: "v0.0.254"
+      rev: "v0.0.256"
       hooks:
           - id: ruff
             args: ["--extend-ignore", "I001,D301,D401"]
