@@ -9,6 +9,7 @@ import typer
 
 from {{ cookiecutter.__package_name_snake_case }}.config.config import PATH_CONFIG_DEFAULT, Config
 
+
 def test_init_config_1():
     """Test initializing a configuration file.
 
@@ -49,6 +50,7 @@ def test_init_config_3(tmp_path):
     assert config.context == {}
     assert config.dry_run is False
     assert config.force is False
+
 
 def test_init_config_4(tmp_path):
     """Test initializing a configuration file.

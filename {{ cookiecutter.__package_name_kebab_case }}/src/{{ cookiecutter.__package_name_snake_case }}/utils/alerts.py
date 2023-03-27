@@ -7,7 +7,9 @@ from textwrap import wrap
 import rich.repr
 import typer
 from loguru import logger
+
 from {{ cookiecutter.__package_name_snake_case }}.utils.console import console
+
 
 class LogLevel(Enum):
     """Enum for log levels."""

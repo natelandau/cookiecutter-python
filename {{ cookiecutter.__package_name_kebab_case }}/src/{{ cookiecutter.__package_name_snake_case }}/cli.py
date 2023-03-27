@@ -89,6 +89,6 @@ def main(
     log.debug(f"Loaded config: {config_file}")
     log.trace(f"Config: {config}")
 
-    if message != "":
+    if message:
         typer.echo(message)
         log.info(message)
