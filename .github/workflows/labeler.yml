@@ -10,8 +10,8 @@ jobs:
             pull-requests: write
         runs-on: ubuntu-latest
         steps:
-            - name: Harden Runner
-              uses: step-security/harden-runner@c8454efe5d0bdefd25384362fe217428ca277d57 # v2.2.0
+            - name: Harden Security Runner
+              uses: step-security/harden-runner@v2
               with:
                   egress-policy: block
                   allowed-endpoints: >
