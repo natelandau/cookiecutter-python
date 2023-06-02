@@ -5,7 +5,7 @@ on:
     workflow_dispatch:
     push:
         paths:
-            - ".github/workflows/python-code-checker.yml"
+            - ".github/workflows/automated-tests.yml"
             - ".github/actions/**"
             - "src/**"
             - "tests/**"
@@ -19,7 +19,7 @@ on:
             - reopened
             - synchronize
         paths:
-            - ".github/workflows/python-code-checker.yml"
+            - ".github/workflows/automated-tests.yml"
             - ".github/actions/**"
             - "src/**"
             - "tests/**"
@@ -88,7 +88,7 @@ jobs:
             #             upload coverage stats
             # ----------------------------------------------
             - name: Upload coverage
-              if: github.ref == 'refs/heads/main' && matrix.python-version == '{{ cookiecutter.python_version.split(".")[0] }}.{{ cookiecutter.python_version.split(".")[1] }}''
+              if: github.ref == 'refs/heads/main' && matrix.python-version == '{{ cookiecutter.python_version.split(".")[0] }}.{{ cookiecutter.python_version.split(".")[1] }}'
               uses: codecov/codecov-action@v3
 {%- raw %}
               with:
