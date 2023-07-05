@@ -22,18 +22,17 @@
 {%- endif %}
         loguru      = "^0.7.0"
         python      = "^{{ cookiecutter.python_version }}"
-        rich        = "^13.3.5"
-        shellingham = "^1.4.0"
+        rich        = "^13.4.2"
 {%- if cookiecutter.python_version.split(".")[1] | int  <= 10 %}
         tomli       = "^2.0.1"
 {%- endif %}
-        typer       = "^0.9.0"
+        typer       = { extras = ["all"], version = "^0.9.0" }
 
     [tool.poetry.group.test.dependencies]
         coverage               = "^7.2.2"
-        pytest                 = "^7.3.1"
+        pytest                 = "^7.4.0"
         pytest-clarity         = "^1.0.1"
-        pytest-mock            = "^3.10.0"
+        pytest-mock            = "^3.11.1"
         pytest-pretty-terminal = "^1.1.0"
         pytest-xdist           = "^3.2.1"
 
@@ -43,17 +42,17 @@
 {%- else %}
         black                 = "^23.3.0"
 {%- endif %}
-        commitizen            = "^3.2.1"
+        commitizen            = "^3.5.2"
         coverage              = "^7.2.5"
         interrogate           = "^1.5.0"
-        mypy                  = "^1.2.0"
-        pdoc                  = "^13.1.1"
+        mypy                  = "^1.4.1"
+        pdoc                  = "^14.0.0"
         poethepoet            = "^0.20.0"
-        pre-commit            = "^3.3.1"
-        ruff                  = "^0.0.270"
-        sh                    = "^2.0.3"
+        pre-commit            = "^3.3.3"
+        ruff                  = "^0.0.275"
+        sh                    = "^2.0.4"
         shellcheck-py         = "^0.9.0.2"
-        typeguard             = "^3.0.2"
+        typeguard             = "^4.0.0"
         vulture               = "^2.7"
 
 
