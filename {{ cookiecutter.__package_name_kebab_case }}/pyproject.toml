@@ -20,40 +20,42 @@
 {%- if cookiecutter.install_jupyter == "True" %}
         jupyterlab  = "^3.6.1"
 {%- endif %}
-        loguru      = "^0.7.0"
+        loguru      = "^0.7.2"
         python      = "^{{ cookiecutter.python_version }}"
-        rich        = "^13.4.2"
+        rich        = "^13.6.0"
 {%- if cookiecutter.python_version.split(".")[1] | int  <= 10 %}
         tomli       = "^2.0.1"
 {%- endif %}
         typer       = { extras = ["all"], version = "^0.9.0" }
 
     [tool.poetry.group.test.dependencies]
-        coverage               = "^7.2.2"
-        pytest                 = "^7.4.0"
+        pytest                 = "^7.4.3"
+        pytest-asyncio         = "^0.21.1"
         pytest-clarity         = "^1.0.1"
-        pytest-mock            = "^3.11.1"
+        pytest-env             = "^1.1.1"
+        pytest-mock            = "^3.12.0"
         pytest-pretty-terminal = "^1.1.0"
-        pytest-xdist           = "^3.2.1"
+        pytest-xdist           = "^3.3.1"
 
     [tool.poetry.group.dev.dependencies]
 {%- if cookiecutter.install_jupyter == "True" %}
-        black                 = { extras = ["jupyter"], version = "^23.3.0" }
+        black                 = { extras = ["jupyter"], version = "^23.10.1" }
 {%- else %}
-        black                 = "^23.3.0"
+        black                 = "^23.10.1"
 {%- endif %}
-        commitizen            = "^3.5.2"
-        coverage              = "^7.2.5"
-        interrogate           = "^1.5.0"
-        mypy                  = "^1.4.1"
-        pdoc                  = "^14.0.0"
-        poethepoet            = "^0.20.0"
-        pre-commit            = "^3.3.3"
-        ruff                  = "^0.0.275"
-        sh                    = "^2.0.4"
-        shellcheck-py         = "^0.9.0.2"
-        typeguard             = "^4.0.0"
-        vulture               = "^2.7"
+        commitizen     = "^3.12.0"
+        coverage       = "^7.3.1"
+        mypy           = "^1.6.1"
+        pdoc           = "^14.0.0"
+        poethepoet     = "^0.22.1"
+        pre-commit     = "^3.5.0"
+        ruff           = "^0.1.3"
+        sh             = "^2.0.4"
+        shellcheck-py  = "^0.9.0.5"
+        types-aiofiles = "^23.2.0.0"
+        typos          = "^1.16.22"
+        vulture        = "^2.7"
+        vulture        = "^2.10"
 
 
 [tool.black]
@@ -64,6 +66,7 @@
     tag_format = "v$version"
     update_changelog_on_bump = true
     version = "0.0.0"
+    changelog_merge_prerelease = true
     version_files = [
         "pyproject.toml:version",
         "src/{{ cookiecutter.__package_name_snake_case }}/__version__.py:__version__",
@@ -129,6 +132,7 @@
 
 [tool.pytest.ini_options]
     addopts        = "--color=yes --doctest-modules --exitfirst --failed-first --strict-config --strict-markers --verbosity=2 --junitxml=reports/pytest.xml"
+    asyncio_mode   = "auto"
     filterwarnings = ["error", "ignore::DeprecationWarning"]
     testpaths      = ["src", "tests"]
     xfail_strict   = true
@@ -154,11 +158,12 @@
         "build",
         "dist",
         "node_modules",
+        # "src/valentina/cogs/test_cog.py",
         "venv",
     ]
     # Avoiding flagging (and removing) `V101` from any `# noqa`
     # directives, despite Ruff's lack of support for `vulture`.
-    external = ["V101"]
+    external = ["V"]
     fix = true
     ignore = [
         "B006",
@@ -174,56 +179,77 @@
         "D408",
         "D409",
         "D413",
+        "E266",
         "E501",
         "N805",
         "PGH001",
         "PGH003",
+        "PLR0913",
+        "S311",
         "UP007",
     ]
     ignore-init-module-imports = true
     line-length = 100
+    output-format = "grouped"
     per-file-ignores = { "cli.py" = [
         "PLR0912",
         "PLR0913",
     ], "tests/*.py" = [
+        "A002",
+        "A003",
+        "D102",
+        "F403",
         "PLR0913",
         "PLR2004",
         "S101",
     ] }
+    preview = true
     select = [
-        "A",   # flake8-builtins
-        "ARG", # flake8-unused-arguments
-        "B",   # flake8-bugbear
-        "BLE", # flake8-blind-exception
-        "C40", # flake8-comprehensions
-        "C90", # McCabe
-        "D",   # pydocstyle
-        "E",   # pycodestyle Errors
-        "ERA", # flake8-eradicate
-        "EXE", # flake8-executable
-        "F",   # pyflakes
-        "I",   # iSort
-        "N",   # Pep8-naming
-        "PGH", # pygrep-hooks
-        "PLC", # pylint Convention
-        "PLE", # pylint Error
-        "PLR", # pylint Refactor
-        "PLW", # pylint Warning
-        "PT",  # flake8-pytest-style
-        "PTH", # flake8-use-pathlib
-        "Q",   # flake8-quotes
-        "RET", # flake8-return
-        "RUF", # Ruff-specific rules
-        "S",   # flake8-bandit
-        "SIM", # flake8-simplify
-        "TID", # flake8-tidy-imports
-        "UP",  # pyupgrade
-        "W",   # pycodestyle Warnings
-        "YTT", # flake8-2020
+        "A",     # flake8-builtins
+        "ARG",   # flake8-unused-arguments
+        "ASYNC", # flake8-async
+        "B",     # flake8-bugbear
+        "BLE",   # flake8-blind-exception
+        "C4",    # flake8-comprehensions
+        "C90",   # McCabe
+        "D",     # pydocstyle
+        "E",     # pycodestyle Errors
+        "EM",    # flake8-errmsg
+        "ERA",   # flake8-eradicate
+        "EXE",   # flake8-executable
+        "F",     # pyflakes
+        "FA",    # flake8-future
+        "FLY",   # flynt
+        "FURB",  # refurb
+        "I",     # iSort
+        "ISC",   # flake8-implicit-str-concat
+        "N",     # Pep8-naming
+        "NPY",   # flake8-numpy
+        "PERF",  # Perflint
+        "PGH",   # pygrep-hooks
+        "PL",    # pylint
+        "PLC",   # pylint Convention
+        "PLE",   # pylint Error
+        "PLR",   # pylint Refactor
+        "PLW",   # pylint Warning
+        "PT",    # flake8-pytest-style
+        "PTH",   # flake8-use-pathlib
+        "Q",     # flake8-quotes
+        "RET",   # flake8-return
+        "RUF",   # Ruff-specific rules
+        "S",     # flake8-bandit
+        "SIM",   # flake8-simplify
+        "T20",   # flake8-print
+        "TID",   # flake8-tidy-imports
+        "TRY",   # tryceratops
+        "UP",    # pyupgrade
+        "W",     # pycodestyle Warnings
+        "YTT",   # flake8-2020
+        # "DTZ",   # flake8-datetimez
     ]
     src = ["src", "tests"]
     target-version = "py310"
-    unfixable = ["ERA001", "F401", "F841", "UP007"]
+    unfixable = ["E712", "ERA001", "F401", "F841", "UP007"]
 
     [tool.ruff.mccabe]
         # Unlike Flake8, default to a complexity level of 10.
@@ -234,6 +260,12 @@
 
     [tool.ruff.pylint]
         max-args = 6
+
+    [tool.ruff.format]
+        indent-style              = "space"
+        line-ending               = "auto"
+        quote-style               = "double"
+        skip-magic-trailing-comma = false
 
 [tool.vulture] # https://pypi.org/project/vulture/
     # exclude = ["file*.py", "dir/"]
@@ -260,7 +292,7 @@
         help = "Lint this package"
 
         [[tool.poe.tasks.lint.sequence]]
-            shell = "ruff --no-fix src/"
+            shell = "ruff --preview --no-fix src/"
 
         [[tool.poe.tasks.lint.sequence]]
             shell = "black --check src/ tests/"
@@ -272,13 +304,13 @@
             shell = "mypy --config-file pyproject.toml src/"
 
         [[tool.poe.tasks.lint.sequence]]
-            shell = "vulture src/ tests/"
+            shell = "typos"
+
+        [[tool.poe.tasks.lint.sequence]]
+            shell = "vulture src/ tests/ --exclude src/valentina/cogs/test_cog.py"
 
         [[tool.poe.tasks.lint.sequence]]
             shell = "yamllint ."
-
-        [[tool.poe.tasks.lint.sequence]]
-            shell = "interrogate -c pyproject.toml ."
 
 {%- if cookiecutter.install_jupyter == "True" %}
 [tool.poe.tasks.lab]

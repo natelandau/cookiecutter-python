@@ -4,7 +4,7 @@ default_stages: [commit, manual]
 fail_fast: true
 repos:
     - repo: "https://github.com/commitizen-tools/commitizen"
-      rev: 3.5.2 # automatically updated by Commitizen
+      rev: 3.12.0 # automatically updated by Commitizen
       hooks:
           - id: commitizen
           - id: commitizen-branch
@@ -13,7 +13,7 @@ repos:
                 - push
 
     - repo: "https://github.com/pre-commit/pre-commit-hooks"
-      rev: v4.4.0
+      rev: v4.5.0
       hooks:
           - id: check-added-large-files
           - id: check-ast
@@ -57,6 +57,16 @@ repos:
 
     - repo: local
       hooks:
+          # This calls a custom pre-commit script.
+          # Disable if you don't have it.
+          - id: stopwords
+            name: stopwords
+            entry: git-stopwords
+            # args: ["-v"]
+            language: system
+            pass_filenames: true
+            types: [text]
+
           - id: shellcheck
             name: shellcheck
             entry: shellcheck --check-sourced -e SC1009 -e SC1054 -e SC1073 -e SC1083 -e SC1056 -e SC1072
