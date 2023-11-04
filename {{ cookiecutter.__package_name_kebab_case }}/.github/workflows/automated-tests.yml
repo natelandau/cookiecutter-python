@@ -59,11 +59,12 @@ jobs:
             # ----------------------------------------------
             #    Install python and checkout repository
             # ----------------------------------------------
-
+{%- raw %}
             - name: Set up Python ${{ matrix.python-version }}
               uses: actions/setup-python@v4
               with:
                   python-version: ${{ matrix.python-version }}
+{% endraw -%}
 
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -94,13 +95,13 @@ jobs:
                   poetry run coverage report
                   poetry run coverage xml
 
+{%- raw %}
             # ----------------------------------------------
             #             upload coverage stats
             # ----------------------------------------------
             - name: Upload coverage
               if: github.ref == 'refs/heads/main' && matrix.python-version == '3.11'
               uses: codecov/codecov-action@v3
-{%- raw %}
               with:
                   # token: ${{ secrets.CODECOV_TOKEN }} # Only required for private repositories
                   files: reports/coverage.xml
