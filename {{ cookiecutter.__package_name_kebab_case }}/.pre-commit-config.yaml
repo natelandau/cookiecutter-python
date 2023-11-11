@@ -59,11 +59,12 @@ repos:
             entry: yamllint --strict --config-file .yamllint.yml
 
     - repo: "https://github.com/charliermarsh/ruff-pre-commit"
-      rev: "v0.1.4"
+      rev: "v0.1.5"
       hooks:
           - id: ruff
             args: ["--extend-ignore", "I001,D301,D401"]
             exclude: tests/
+          - id: ruff-format
 
     - repo: "https://github.com/jendrikseipp/vulture"
       rev: "v2.10"
@@ -71,7 +72,7 @@ repos:
           - id: vulture
 
     - repo: "https://github.com/crate-ci/typos"
-      rev: v1.16.22
+      rev: v1.16.23
       hooks:
           - id: typos
 
@@ -86,13 +87,6 @@ repos:
             language: system
             pass_filenames: true
             types: [text]
-
-          - id: black
-            name: black
-            entry: black
-            require_serial: true
-            language: system
-            types: [python]
 
           - id: shellcheck
             name: shellcheck
