@@ -11,6 +11,7 @@ concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 {% endraw %}
+
 permissions:
     contents: write
 
@@ -94,6 +95,7 @@ jobs:
               run: |
                   TAG=$(git describe HEAD --tags --abbrev=0)
                    echo "CURRENT_TAG=refs/tags/${TAG}" >> $GITHUB_ENV
+
 {% raw %}
             - name: Get notes
               id: generate_notes
@@ -102,9 +104,11 @@ jobs:
                   tag_name: ${{ env.CURRENT_TAG }}
                   changelog: CHANGELOG.md
 {% endraw %}
+
             # ----------------------------------------------
             # Build draft release (Note: Will need to manually publish)
             # ----------------------------------------------
+
 {% raw %}
             - name: Create Release Draft
               uses: softprops/action-gh-release@v1

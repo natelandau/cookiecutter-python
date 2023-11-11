@@ -53,6 +53,7 @@ jobs:
               run: |
                   poetry run poetry check
                   poetry run coverage run
+
 {% raw %}
             # ----------------------------------------------
             # Publish to PyPi

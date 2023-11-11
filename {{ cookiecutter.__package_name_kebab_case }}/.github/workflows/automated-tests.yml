@@ -23,11 +23,13 @@ on:
             - "**.py"
             - "pyproject.toml"
             - "poetry.lock"
+
 {% raw %}
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 {% endraw %}
+
 jobs:
     test-python-code:
         runs-on: ubuntu-latest
@@ -59,6 +61,7 @@ jobs:
             # ----------------------------------------------
             #    Install python and checkout repository
             # ----------------------------------------------
+
 {%- raw %}
             - name: Set up Python ${{ matrix.python-version }}
               uses: actions/setup-python@v4
@@ -106,4 +109,4 @@ jobs:
                   # token: ${{ secrets.CODECOV_TOKEN }} # Only required for private repositories
                   files: reports/coverage.xml
                   fail_ci_if_error: true
-{%- endraw %}
+{% endraw -%}
