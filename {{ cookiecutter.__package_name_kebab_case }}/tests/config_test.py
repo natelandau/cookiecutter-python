@@ -10,6 +10,7 @@ import typer
 from {{ cookiecutter.__package_name_snake_case }}.config.config import PATH_CONFIG_DEFAULT, Config
 
 
+
 def test_init_config_1():
     """Test initializing a configuration file.
 
@@ -44,12 +45,10 @@ def test_init_config_3(tmp_path):
     """
     path_to_config = Path(tmp_path / "config.toml")
     shutil.copy(PATH_CONFIG_DEFAULT, path_to_config)
-    config = Config(config_path=path_to_config)
+    config = Config(config_path=path_to_config, context={"dry_run": False})
     assert config.config_path == path_to_config
-    assert config.config == {"key": "value", "parent": {"key": "value"}}
-    assert config.context == {}
-    assert config.dry_run is False
-    assert config.force is False
+    assert config.config == {"key": "value", "parent": {"key": "value"}, "dry_run": False}
+    assert config.context == {"dry_run": False}
 
 
 def test_init_config_4(tmp_path):
@@ -63,7 +62,10 @@ def test_init_config_4(tmp_path):
     shutil.copy(PATH_CONFIG_DEFAULT, path_to_config)
     config = Config(config_path=path_to_config, context={"dry_run": True, "force": True})
     assert config.config_path == path_to_config
-    assert config.config == {"key": "value", "parent": {"key": "value"}}
+    assert config.config == {
+        "dry_run": True,
+        "force": True,
+        "key": "value",
+        "parent": {"key": "value"},
+    }
     assert config.context == {"dry_run": True, "force": True}
-    assert config.dry_run is True
-    assert config.force is True

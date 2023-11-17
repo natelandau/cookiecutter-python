@@ -1,9 +1,5 @@
-"""Shared utilities."""
+"""Shared utilities for {{ cookiecutter.package_name }}."""
 
-from {{ cookiecutter.__package_name_snake_case }}.utils import alerts
-from {{ cookiecutter.__package_name_snake_case }}.utils.alerts import LoggerManager
+from .console import console
 
-__all__ = [
-    "alerts",
-    "LoggerManager",
-]
+__all__ = ["console"]
