@@ -34,8 +34,6 @@ class Config:
         self.config_path = config_path.expanduser().resolve() if config_path else None
         self.context = context
 
-        self.dry_run = self.context.get("dry_run", False)
-
         if not config_path or not self.config_path.exists():
             self._create_config()
 
@@ -74,9 +72,6 @@ class Config:
         # Add context to config
         for key, value in self.context.items():
             config[key] = value
-
-        # Add dry_run to config
-        config["dry_run"] = self.dry_run
 
         return config
 

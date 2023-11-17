@@ -14,6 +14,7 @@ from {{ cookiecutter.__package_name_snake_case }}.utils.console import console
 
 
 app = typer.Typer(add_completion=False, no_args_is_help=True, rich_markup_mode="rich")
+app_dir = typer.get_app_dir("{{ cookiecutter.__package_name_snake_case }}")
 
 typer.rich_utils.STYLE_HELPTEXT = ""
 
@@ -34,15 +35,8 @@ def main(
         "-n",
         help="Dry run - don't actually change anything",
     ),
-    config_file: Path = typer.Option(
-        Path(Path.home() / f".{__package__}/{__package__}.toml"),
-        help="Specify a custom path to configuration file.",
-        show_default=False,
-        dir_okay=False,
-        file_okay=True,
-    ),
     log_file: Path = typer.Option(
-        Path(Path.home() / "logs" / f"{__package__}.log"),
+        Path(Path.home() / "logs" / f"{{ cookiecutter.__package_name_snake_case }}.log"),
         help="Path to log file",
         show_default=True,
         dir_okay=False,
@@ -87,6 +81,6 @@ def main(
             enqueue=True,
         )
 
-    logger.info("Starting {name} version: {version}", name=__package__, version=__version__)
+    logger.info(f"Starting {__package__} version: {__version__}")
 
-    config = Config(config_file, context={"dry_run": dry_run})
+    config = Config(config_path=Path(app_dir) / "config.toml", context={"dry_run": dry_run, "app_dir":app_dir})
