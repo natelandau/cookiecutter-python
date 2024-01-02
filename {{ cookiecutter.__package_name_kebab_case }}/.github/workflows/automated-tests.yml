@@ -61,8 +61,8 @@ jobs:
             # ----------------------------------------------
             #    Install python and checkout repository
             # ----------------------------------------------
+{% raw -%}
 
-{%- raw %}
             - name: Set up Python ${{ matrix.python-version }}
               uses: actions/setup-python@v4
               with:

@@ -5,11 +5,13 @@ on:
     release:
         types:
             - published
-{% raw %}
+
+            {% raw %}
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 {% endraw %}
+
 jobs:
     publish-to-pypi:
         runs-on: ubuntu-latest
@@ -35,13 +37,11 @@ jobs:
             # ----------------------------------------------
             #    Install python and checkout repository
             # ----------------------------------------------
-
-{%- raw %}
-            - name: Set up Python ${{ matrix.python-version }}
+            - name: Set up Python {% raw %}${{ matrix.python-version }}{% endraw %}
               uses: actions/setup-python@v4
               with:
-                  python-version: ${{ matrix.python-version }}
-{% endraw -%}
+                  python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
+
 
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -54,14 +54,13 @@ jobs:
                   poetry run poetry check
                   poetry run coverage run
 
-{% raw %}
+
             # ----------------------------------------------
             # Publish to PyPi
             # ----------------------------------------------
             - name: Publish
               env:
-                  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+                  PYPI_TOKEN: {% raw %}${{ secrets.PYPI_TOKEN }}{% endraw %}
               run: |
                   poetry config pypi-token.pypi $PYPI_TOKEN
                   poetry publish --build
-{% endraw -%}

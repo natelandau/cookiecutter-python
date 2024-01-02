@@ -18,8 +18,6 @@ jobs:
                       api.github.com:443
                       github.com:443
 
-{%- raw %}
             - uses: actions/labeler@v5
               with:
-                  repo-token: ${{ secrets.GITHUB_TOKEN }}
-{%- endraw %}
+                  repo-token: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
