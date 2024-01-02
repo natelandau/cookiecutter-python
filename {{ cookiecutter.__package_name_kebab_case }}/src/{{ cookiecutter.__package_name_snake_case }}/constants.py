@@ -4,7 +4,7 @@ from enum import Enum
 
 
 class LogLevel(str, Enum):
-    """Log levels for video-transcode."""
+    """Logging levels"""
 
     TRACE = "trace"
     DEBUG = "debug"
