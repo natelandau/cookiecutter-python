@@ -1,5 +1,5 @@
 # type: ignore
-"""Test {{ cookiecutter.__package_name_kebab_case}} CLI."""
+"""Test {{ cookiecutter.__package_name_kebab_case }} CLI."""
 
 import re
 

@@ -6,7 +6,7 @@ from pathlib import Path
 import typer
 
 class LogLevel(Enum):
-    """Log levels for vid-cleaner."""
+    """Log levels for {{ cookiecutter.package_name }}."""
 
     INFO = 0
     DEBUG = 1
@@ -14,4 +14,4 @@ class LogLevel(Enum):
     WARNING = 3
     ERROR = 4
 
-APP_DIR = Path(typer.get_app_dir("vid-cleaner"))
+APP_DIR = Path(typer.get_app_dir("{{ cookiecutter.__package_name_kebab_case }}"))
