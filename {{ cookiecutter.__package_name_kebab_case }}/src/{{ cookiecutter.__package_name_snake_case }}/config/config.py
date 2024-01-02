@@ -7,6 +7,7 @@ from typing import Any
 import tomllib
 import typer
 from loguru import logger
+from rich import print as rprint
 
 from {{ cookiecutter.__package_name_snake_case }}.utils import errors
 
