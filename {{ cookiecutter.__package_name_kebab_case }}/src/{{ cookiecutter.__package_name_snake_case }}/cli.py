@@ -9,7 +9,7 @@ import typer
 
 from {{ cookiecutter.__package_name_snake_case }}.__version__ import __version__
 from {{ cookiecutter.__package_name_snake_case }}.config import Config
-from {{ cookiecutter.__package_name_snake_case }}.constants import APP_DIR, LogLevel
+from {{ cookiecutter.__package_name_snake_case }}.constants import APP_DIR
 from {{ cookiecutter.__package_name_snake_case }}.utils import console
 from {{ cookiecutter.__package_name_snake_case }}.utils import instantiate_logger
 
@@ -59,6 +59,7 @@ def main(
     """Add application documentation here."""
     # Instantiate Logging
     instantiate_logger(verbosity, log_file, log_to_file)
+    logger.info(f"Starting {__package__} version: {__version__}")
 
 if __name__ == "__main__":
     app()

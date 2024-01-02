@@ -1,4 +1,4 @@
-"""Custom errors for {{ cookiecutter.package_name }}"""
+"""Custom errors for {{ cookiecutter.package_name }}."""
 
 
 class MissingConfigurationError(Exception):

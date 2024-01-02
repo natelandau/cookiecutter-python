@@ -156,21 +156,22 @@
     external = ["V"]
     fix = true
     ignore = [
-        "B006", # mutable-argument-default
-        "B008", # function-call-in-default-argument
-        "D107", # undocumented-public-init
-        "D213", # multi-line-summary-second-line
-        "D215", # section-underline-not-over-indented
-        "D406", # new-line-after-section-name
-        "D407", # dashed-underline-after-section
-        "D408", # section-underline-after-name
-        "D409", # section-underline-matches-section-length
-        "D413", # blank-line-after-last-section
-        "E501", # line-too-long
-        "N805", # invalid-first-argument-name-for-method
+        "B006",    # mutable-argument-default
+        "B008",    # function-call-in-default-argument
+        "D107",    # undocumented-public-init
+        "D213",    # multi-line-summary-second-line
+        "D215",    # section-underline-not-over-indented
+        "D406",    # new-line-after-section-name
+        "D407",    # dashed-underline-after-section
+        "D408",    # section-underline-after-name
+        "D409",    # section-underline-matches-section-length
+        "D413",    # blank-line-after-last-section
+        "E501",    # line-too-long
+        "ISC001",  # single-line-implicit-string-concatenation
+        "N805",    # invalid-first-argument-name-for-method
         "PLR0913", # too-many-arguments
-        "S311", # suspicious-non-cryptographic-random-usage
-        "UP007",# non-pep604-annotation
+        "S311",    # suspicious-non-cryptographic-random-usage
+        "UP007",   # non-pep604-annotation
     ]
     ignore-init-module-imports = true
     line-length = 100

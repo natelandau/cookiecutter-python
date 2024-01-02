@@ -115,8 +115,8 @@ class Config:
         value = self.config.get(key, default)
 
         if value is None and not pass_none:
-            logger.error(f"Config variable {key} is not set.")
-            raise typer.Exit(code=1)
+            msg = f"Config variable {key} is not set."
+            raise errors.MissingConfigurationError(msg)
 
         if not value and not isinstance(value, bool):
             return None
