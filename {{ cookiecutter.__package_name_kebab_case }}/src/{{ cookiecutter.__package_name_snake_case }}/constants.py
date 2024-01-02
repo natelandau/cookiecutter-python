@@ -1,13 +1,17 @@
 """Constants for {{ cookiecutter.package_name }}."""
 
 from enum import Enum
+from pathlib import Path
 
+import typer
 
-class LogLevel(str, Enum):
-    """Logging levels"""
+class LogLevel(Enum):
+    """Log levels for vid-cleaner."""
 
-    TRACE = "trace"
-    DEBUG = "debug"
-    INFO = "info"
-    WARNING = "warning"
-    ERROR = "error"
+    INFO = 0
+    DEBUG = 1
+    TRACE = 2
+    WARNING = 3
+    ERROR = 4
+
+APP_DIR = Path(typer.get_app_dir("vid-cleaner"))
