@@ -1,7 +1,7 @@
 # type: ignore
 """Test {{ cookiecutter.__package_name_kebab_case}} CLI."""
 
-from pathlib import Path
+import re
 
 from typer.testing import CliRunner
 
@@ -15,4 +15,4 @@ def test_version():
     """Test printing version and then exiting."""
     result = runner.invoke(app, ["--version"])
     assert result.exit_code == 0
-    assert re.match(r"{{ cookiecutter.__package_name_snake_case }}: v\d+\.\d+\.\d+", strip_ansi(result.output))
+    assert re.match(r"{{ cookiecutter.__package_name_snake_case }} version: \d+\.\d+\.\d+", strip_ansi(result.output))
