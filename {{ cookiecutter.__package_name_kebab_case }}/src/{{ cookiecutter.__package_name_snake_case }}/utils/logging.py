@@ -2,57 +2,66 @@
 
 import logging
 import sys
+from enum import Enum
 from pathlib import Path
 
 from loguru import logger
 
-from {{ cookiecutter.__package_name_snake_case }}.constants import LogLevel
+
+class LogLevel(Enum):
+    """Log levels for halp."""
+
+    INFO = 0
+    DEBUG = 1
+    TRACE = 2
+    WARNING = 3
+    ERROR = 4
 
 
 def instantiate_logger(
     verbosity: int, log_file: Path, log_to_file: bool
 ) -> None:  # pragma: no cover
-    """Instantiate the Loguru logger for {{ cookiecutter.package_name }}.
+    """Instantiate the Loguru logger for Halp.
 
-    It configures the logger with the specified verbosity level, log file path,
+    Configures the logger with the specified verbosity level, log file path,
     and whether to log to a file.
 
     Args:
         verbosity (int): The verbosity level of the logger. Valid values are:
-            - 0: No log messages will be displayed.
-            - 1: Only log messages with severity level INFO and above will be displayed.
-            - 2: Only log messages with severity level DEBUG and above will be displayed.
-            - 3: Only log messages with severity level TRACE and above will be displayed.
+            - 0: Only log messages with severity level INFO and above will be displayed.
+            - 1: Only log messages with severity level DEBUG and above will be displayed.
+            - 2: Only log messages with severity level TRACE and above will be displayed.
+            > 2: Include debug from installed libraries
         log_file (Path): The path to the log file where the log messages will be written.
         log_to_file (bool): Whether to log the messages to the file specified by `log_file`.
 
     Returns:
         None
     """
+    level = verbosity if verbosity < 3 else 2  # noqa: PLR2004
+
     logger.remove()
     logger.add(
         sys.stdout,
-        level=LogLevel(verbosity).name,
+        level=LogLevel(level).name,
         colorize=True,
         format="<level>{level: <8}</level> | <level>{message}</level> <fg #c5c5c5>({name}:{function}:{line})</fg #c5c5c5>"
         if LogLevel(verbosity) in {LogLevel.DEBUG, LogLevel.TRACE}
         else "<level>{level: <8}</level> | <level>{message}</level>",
-        enqueue=True,
     )
     if log_to_file:
         logger.add(
             log_file,
-            level=LogLevel(verbosity).name,
+            level=LogLevel(level).name,
             format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message} ({name})",
             rotation="50 MB",
             retention=2,
             compression="zip",
-            enqueue=True,
         )
 
-    # Intercept standard sh logs and redirect to Loguru
-    if LogLevel(verbosity) in {LogLevel.DEBUG, LogLevel.TRACE}:
-        logging.getLogger("sh").setLevel(level="INFO")
+    if verbosity > 2:  # noqa: PLR2004
+        # Intercept standard sh logs and redirect to Loguru
+        logging.getLogger("peewee").setLevel(level="DEBUG")
         logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)
 
 
