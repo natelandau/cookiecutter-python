@@ -821,13 +821,13 @@ test = ["black (>=22.3.0,<23.0.0)", "coverage (>=6.2,<7.0)", "isort (>=5.0.6,<6.
 
 [[package]]
 name = "types-python-dateutil"
-version = "2.8.19.14"
+version = "2.8.19.20240106"
 description = "Typing stubs for python-dateutil"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
-    {file = "types-python-dateutil-2.8.19.14.tar.gz", hash = "sha256:1f4f10ac98bb8b16ade9dbee3518d9ace017821d94b057a425b069f834737f4b"},
-    {file = "types_python_dateutil-2.8.19.14-py3-none-any.whl", hash = "sha256:f977b8de27787639986b4e28963263fd0e5158942b3ecef91b9335c130cb1ce9"},
+    {file = "types-python-dateutil-2.8.19.20240106.tar.gz", hash = "sha256:1f8db221c3b98e6ca02ea83a58371b22c374f42ae5bbdf186db9c9a76581459f"},
+    {file = "types_python_dateutil-2.8.19.20240106-py3-none-any.whl", hash = "sha256:efbbdc54590d0f16152fa103c9879c7d4a00e82078f6e2cf01769042165acaa2"},
 ]
 
 [[package]]
@@ -843,21 +843,21 @@ files = [
 
 [[package]]
 name = "typos"
-version = "1.16.26"
+version = "1.17.0"
 description = "Source Code Spelling Correction"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "typos-1.16.26-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:7c0c7a36f2af868f5906337e39a4580a52c27bea55703a41accd0b78f1d9409f"},
-    {file = "typos-1.16.26-py3-none-macosx_11_0_arm64.whl", hash = "sha256:52c6df947589d6986fe2da945b20ccec987a29666f19bfae8adc8c98b5c67ba4"},
-    {file = "typos-1.16.26-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:8216b04b705ee55a9c325b7aacfb64d26265c8a39ca119da9ce626798f3d2fa1"},
-    {file = "typos-1.16.26-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:39465b6cc1aa183920851845263c469d4cd5faa331ea1b7802a921168ad7bf08"},
-    {file = "typos-1.16.26-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a37fcf005f35bdf4d35b027f39c021dfd31304d05cd16656c3b43fc8d9d78f90"},
-    {file = "typos-1.16.26-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:39c313d93bb8819e4a4ddca6d8bd89c02a62a785a6fc22a48d71238b3b0a7ee9"},
-    {file = "typos-1.16.26-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:af1acb2eb99801e6aa47055a49fb4afa8b148529cc0dec2e18764b3e736967b1"},
-    {file = "typos-1.16.26-py3-none-win32.whl", hash = "sha256:d5dc4a34021a5bcfa9fff7dd2da317ad29195093d5d98c6ea03f3ef9a69fc302"},
-    {file = "typos-1.16.26-py3-none-win_amd64.whl", hash = "sha256:ef9fd2d2acbb0f69708986700c6c2b000f6f81d1ba29c0de97a1ca3652ded4a0"},
-    {file = "typos-1.16.26.tar.gz", hash = "sha256:51ac53a284aa69f25707ba268c20568814219243c64da0e9862168fa2e177298"},
+    {file = "typos-1.17.0-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:d9cad8250a1b7ec23687279fe4a33f04452b7573e04b340a025d63cf6011bb80"},
+    {file = "typos-1.17.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:ef724e2729747168759e1659ee0d1015c284db1d40140101364a775bd1ebc958"},
+    {file = "typos-1.17.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a6f1386d50be71f727d257deaa4aa962c6c0c1336337ee65611f06e8a0444a21"},
+    {file = "typos-1.17.0-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:bb3feccfdaa028ec5a082244a4f145ab2bf4a4162e3a5e978eea0341e24c76d4"},
+    {file = "typos-1.17.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:812b1ebe9dcc79fd8b0e7857bd0e6f459d1a7c87eed1103fda3ebc32b1b9b46c"},
+    {file = "typos-1.17.0-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:8ade689068df9cde9ce7a7fffce98adbc4147ef6760a1e055bf14dc12de1b4ca"},
+    {file = "typos-1.17.0-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:00ead2146feca2aedb62e3515457cbb54659ea12332f417a1510e1e527efcab5"},
+    {file = "typos-1.17.0-py3-none-win32.whl", hash = "sha256:60746ebe8d7381d9e0cc252f4dc81a2d3730e389469210fe82a81bd78f6d1f71"},
+    {file = "typos-1.17.0-py3-none-win_amd64.whl", hash = "sha256:acb8befeddb267682dd3484bb4b29edee2a3227b64d46e0940cb3fbb50f1292e"},
+    {file = "typos-1.17.0.tar.gz", hash = "sha256:b9091898829bdff389d0df61b443b516860245298429481a746d5da1f44cf432"},
 ]
 
 [[package]]
@@ -898,13 +898,13 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 
 [[package]]
 name = "wcwidth"
-version = "0.2.12"
+version = "0.2.13"
 description = "Measures the displayed width of unicode strings in a terminal"
 optional = false
 python-versions = "*"
 files = [
-    {file = "wcwidth-0.2.12-py2.py3-none-any.whl", hash = "sha256:f26ec43d96c8cbfed76a5075dac87680124fa84e0855195a6184da9c187f133c"},
-    {file = "wcwidth-0.2.12.tar.gz", hash = "sha256:f01c104efdf57971bcb756f054dd58ddec5204dd15fa31d6503ea57947d97c02"},
+    {file = "wcwidth-0.2.13-py2.py3-none-any.whl", hash = "sha256:3da69048e4540d84af32131829ff948f1e022c1c6bdb8d6102117aac784f6859"},
+    {file = "wcwidth-0.2.13.tar.gz", hash = "sha256:72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"},
 ]
 
 [[package]]
