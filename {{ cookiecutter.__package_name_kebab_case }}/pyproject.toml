@@ -7,7 +7,7 @@
     description = "{{ cookiecutter.package_description }}"
     homepage    = "{{ cookiecutter.package_url }}"
     keywords    = []
-    license     = ""
+    license     = "AGPL-3.0-or-later"
     name        = "{{ cookiecutter.package_name|slugify }}"
     readme      = "README.md"
     repository  = "{{ cookiecutter.package_url }}"
@@ -17,6 +17,7 @@
         {{ cookiecutter.__package_name_kebab_case }} = "{{ cookiecutter.__package_name_snake_case }}.cli:app"
 
     [tool.poetry.dependencies]
+        confz  = "^2.0.1"
         loguru = "^0.7.2"
         python = "^3.11"
         rich   = "^13.7.0"

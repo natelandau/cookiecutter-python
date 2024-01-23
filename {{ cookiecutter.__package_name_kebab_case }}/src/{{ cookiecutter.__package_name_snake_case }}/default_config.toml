@@ -1,0 +1,5 @@
+# Default TOML configuration file
+
+key_one   = "value"
+key_three = ["one", "three", "two"]
+key_two   = [1, 2, 3]

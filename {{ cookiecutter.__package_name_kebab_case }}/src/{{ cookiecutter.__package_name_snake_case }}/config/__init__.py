@@ -1,5 +1,5 @@
 """Configuration module."""
 
-from {{ cookiecutter.__package_name_snake_case }}.config.config import Config
+from .config import {{ cookiecutter.__package_name_pascal_case }}Config
 
-__all__ = ["Config"]
+__all__ = ["{{ cookiecutter.__package_name_pascal_case }}Config"]
