@@ -9,7 +9,7 @@ from loguru import logger
 
 
 class LogLevel(Enum):
-    """Log levels for halp."""
+    """Log levels for {{ cookiecutter.package_name }}."""
 
     INFO = 0
     DEBUG = 1
@@ -21,7 +21,7 @@ class LogLevel(Enum):
 def instantiate_logger(
     verbosity: int, log_file: Path, log_to_file: bool
 ) -> None:  # pragma: no cover
-    """Instantiate the Loguru logger for Halp.
+    """Instantiate the Loguru logger for {{ cookiecutter.package_name }}.
 
     Configures the logger with the specified verbosity level, log file path,
     and whether to log to a file.

@@ -8,7 +8,7 @@
 ### Fix
 
 - add pypi release workflow
-- remove unneccesary `src` prefix in imports
+- remove unnecessary `src` prefix in imports
 - **extensions**: use `Chouzz.vscode-better-align` extension
 - venvs in project
 - add package name to --version

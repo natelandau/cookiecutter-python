@@ -7,5 +7,6 @@
   "python_version": "3.11",
   "install_jupyter": ["True", "False"],
   "__package_name_kebab_case": "{{ cookiecutter.package_name|slugify }}",
-  "__package_name_snake_case": "{{ cookiecutter.package_name|slugify(separator='_') }}"
+  "__package_name_snake_case": "{{ cookiecutter.package_name|slugify(separator='_') }}",
+  "_jinja2_env_vars": {"lstrip_blocks": true, "trim_blocks": true}
 }

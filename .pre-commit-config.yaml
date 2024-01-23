@@ -55,6 +55,11 @@ repos:
             files: \.(yaml|yml)$
             entry: yamllint --strict --config-file .yamllint.yml
 
+    - repo: "https://github.com/crate-ci/typos"
+      rev: v1.17.2
+      hooks:
+          - id: typos
+
     - repo: local
       hooks:
           # This calls a custom pre-commit script.
