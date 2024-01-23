@@ -5,7 +5,6 @@ on:
     push:
         tags:
             - "v*"
-
 {% raw %}
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
@@ -40,6 +39,16 @@ jobs:
                       docker.io:443
                       githubapp.com:443
                       docker.com:443
+
+            # ----------------------------------------------
+            #    Install python and checkout repository
+            # ----------------------------------------------
+{% raw %}
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v4
+              with:
+                  python-version: ${{ matrix.python-version }}
+{% endraw %}
 
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -95,7 +104,6 @@ jobs:
               run: |
                   TAG=$(git describe HEAD --tags --abbrev=0)
                    echo "CURRENT_TAG=refs/tags/${TAG}" >> $GITHUB_ENV
-
 {% raw %}
             - name: Get notes
               id: generate_notes
@@ -108,7 +116,6 @@ jobs:
             # ----------------------------------------------
             # Build draft release (Note: Will need to manually publish)
             # ----------------------------------------------
-
 {% raw %}
             - name: Create Release Draft
               uses: softprops/action-gh-release@v1
@@ -120,4 +127,4 @@ jobs:
                       dist/*-${{env.PROJECT_VERSION}}.tar.gz
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-{% endraw -%}
+{% endraw %}

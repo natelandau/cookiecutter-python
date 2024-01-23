@@ -37,14 +37,22 @@ jobs:
             # ----------------------------------------------
             #    Install python and checkout repository
             # ----------------------------------------------
-            - name: Set up Python {% raw %}${{ matrix.python-version }}{% endraw %}
+{% raw %}
+            - name: Set up Python ${{ matrix.python-version }}
               uses: actions/setup-python@v4
               with:
-                  python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
-
+                  python-version: ${{ matrix.python-version }}
+{% endraw %}
 
             - name: Checkout repository
               uses: actions/checkout@v4
+
+            # ----------------------------------------------
+            #    Install poetry and project dependencies
+            # ----------------------------------------------
+
+            - name: Setup Python and Poetry
+              uses: ./.github/actions/setup-poetry
 
             # ----------------------------------------------
             # Test before building and uploading the package
@@ -54,13 +62,14 @@ jobs:
                   poetry run poetry check
                   poetry run coverage run
 
-
             # ----------------------------------------------
             # Publish to PyPi
             # ----------------------------------------------
+{% raw %}
             - name: Publish
               env:
-                  PYPI_TOKEN: {% raw %}${{ secrets.PYPI_TOKEN }}{% endraw %}
+                  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
               run: |
                   poetry config pypi-token.pypi $PYPI_TOKEN
                   poetry publish --build
+{% endraw %}
