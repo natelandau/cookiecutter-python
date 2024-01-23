@@ -56,5 +56,4 @@ runs:
           if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
           shell: bash
           run: poetry install --all-extras
-
-{% endraw -%}
+{% endraw %}

@@ -17,16 +17,11 @@
         {{ cookiecutter.__package_name_kebab_case }} = "{{ cookiecutter.__package_name_snake_case }}.cli:app"
 
     [tool.poetry.dependencies]
-{%- if cookiecutter.install_jupyter == "True" %}
-        jupyterlab  = "^3.6.1"
-{%- endif %}
-        loguru      = "^0.7.2"
-        python      = "^{{ cookiecutter.python_version }}"
-        rich        = "^13.6.0"
-{%- if cookiecutter.python_version.split(".")[1] | int  <= 10 %}
-        tomli       = "^2.0.1"
-{%- endif %}
-        typer       = { extras = ["all"], version = "^0.9.0" }
+        loguru = "^0.7.2"
+        python = "^{{ cookiecutter.python_version }}"
+        rich   = "^13.6.0"
+        tomli  = "^2.0.1"                                 # Remove if python > 3.10
+        typer  = { extras = ["all"], version = "^0.9.0" }
 
     [tool.poetry.group.test.dependencies]
         pytest                 = "^7.4.3"
@@ -39,25 +34,24 @@
         pytest-xdist           = "^3.3.1"
 
     [tool.poetry.group.dev.dependencies]
-        commitizen     = "^3.12.0"
-        coverage       = "^7.3.1"
-        mypy           = "^1.8.0"
-        pdoc           = "^14.0.0"
-        poethepoet     = "^0.24.2"
-        pre-commit     = "^3.5.0"
-        ruff           = "^0.1.9"
-        sh             = "^2.0.4"
-        shellcheck-py  = "^0.9.0.5"
-        typos          = "^1.16.23"
-        vulture        = "^2.10"
-
+        commitizen    = "^3.12.0"
+        coverage      = "^7.3.1"
+        mypy          = "^1.8.0"
+        pdoc          = "^14.0.0"
+        poethepoet    = "^0.24.2"
+        pre-commit    = "^3.5.0"
+        ruff          = "^0.1.9"
+        sh            = "^2.0.4"
+        shellcheck-py = "^0.9.0.5"
+        typos         = "^1.16.23"
+        vulture       = "^2.10"
 
 [tool.commitizen]
     bump_message = "bump(release): v$current_version → v$new_version"
+    changelog_merge_prerelease = true
     tag_format = "v$version"
     update_changelog_on_bump = true
     version = "0.0.0"
-    changelog_merge_prerelease = true
     version_files = [
         "pyproject.toml:version",
         "src/{{ cookiecutter.__package_name_snake_case }}/__version__.py:__version__",
@@ -300,21 +294,6 @@
 
         [[tool.poe.tasks.lint.sequence]]
             shell = "yamllint ."
-
-{%- if cookiecutter.install_jupyter == "True" %}
-[tool.poe.tasks.lab]
-    help = "Run Jupyter Lab"
-
-    [[tool.poe.tasks.lab.sequence]]
-        cmd = "mkdir -p notebooks"
-
-    [[tool.poe.tasks.lab.sequence]]
-        cmd = """
-                jupyter lab
-                    --allow-root
-                    --notebook-dir notebooks
-                """
-{%- endif %}
 
 [tool.poe.tasks.test]
     help = "Test this package"

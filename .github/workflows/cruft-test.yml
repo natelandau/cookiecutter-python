@@ -42,7 +42,7 @@ jobs:
 
             - name: Run cruft create
               run: |
-                  poetry run cruft create --no-input --extra-context '{"python_version": "3.10", "install_jupyter": "False"}' .
+                  poetry run cruft create --no-input --extra-context '{"python_version": "3.10"}' .
 
             - name: Set up Node.js
               uses: actions/setup-node@v4
