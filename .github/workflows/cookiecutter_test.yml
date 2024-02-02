@@ -1,0 +1,78 @@
+---
+name: "Test Cruft Create"
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths-ignore:
+            - "*.md"
+            - "*.yaml"
+            - "*.yml"
+    pull_request:
+        types:
+            - opened
+            - reopened
+            - synchronize
+        paths-ignore:
+            - "*.md"
+            - "*.yaml"
+            - "*.yml"
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    test-cruft-create:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: true
+            matrix:
+                python-version: ["3.10", "3.11", "3.12"]
+        name: Python ${{ matrix.python-version }}
+
+        steps:
+            # ----------------------------------------------
+            #    Install python and checkout repository
+            # ----------------------------------------------
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v5
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            # ----------------------------------------------
+            #    Install poetry and project dependencies
+            # ----------------------------------------------
+
+            - name: Setup Python and Poetry
+              uses: ./.github/actions/setup-poetry
+
+            - name: Install dependencies
+              run: poetry install
+
+            # ----------------------------------------------
+            #    Install poetry and project dependencies
+            # ----------------------------------------------
+
+            - name: Run cookiecutter create
+              shell: bash
+              run: |
+                  mkdir test-package
+                  poetry run cookiecutter create --no-input --extra-context '{"python_version": "${{ matrix.python-version }}"}' ./test-package
+                  cd test-package
+                  ls -al
+                  poetry install
+
+            # ----------------------------------------------
+            #    Test installed package
+            # ----------------------------------------------
+            - name: Test package
+              shell: bash
+              run: |
+                  poetry run my_package --version
+                  poetry run pytest
