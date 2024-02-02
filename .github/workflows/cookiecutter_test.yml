@@ -76,6 +76,10 @@ jobs:
                   echo "-----------> copy config file so tests pass <-----------"
                   mkdir -p /home/runner/.config/cipackage
                   cp src/cipackage/default_config.toml /home/runner/.config/cipackage/config.toml
+                  echo "\n----------->run 'cli --version' <-----------\n"
+                  poetry run cipackage --version
+                  echo "\n----------->run pytests <-----------\n"
+                  poetry run pytest tests/
 
             # ----------------------------------------------
             #    copy config file to runner so tests will pass
@@ -90,14 +94,14 @@ jobs:
             # ----------------------------------------------
             #    Test installed package
             # ----------------------------------------------
-            - name: Test `cli --version`
-              shell: bash
-              run: |
-                  poetry env use ${PWD}/cipackage/.venv/bin/python
-                  poetry run cipackage --version
+            # - name: Test `cli --version`
+            #   shell: bash
+            #   run: |
+            #       poetry env use ${PWD}/cipackage/.venv/bin/python
+            #       poetry run cipackage --version
 
-            - name: Run tests
-              shell: bash
-              run: |
-                  poetry env use ${PWD}/cipackage/.venv/bin/python
-                  poetry run pytest tests/
+            # - name: Run tests
+            #   shell: bash
+            #   run: |
+            #       poetry env use ${PWD}/cipackage/.venv/bin/python
+            #       poetry run pytest tests/
