@@ -73,17 +73,19 @@ jobs:
                   poetry env use ${PWD}/.venv/bin/python
                   echo "-----------> poetry info <-----------"
                   poetry env info
-                  echo "-----------> test installed package <-----------"
+                  echo "-----------> copy config file so tests pass <-----------"
+                  mkdir -p /home/runner/.config/ci-package
+                  cp src/ci_package/default_config.toml /home/runner/.config/ci-package/config.toml
 
             # ----------------------------------------------
             #    copy config file to runner so tests will pass
             # ----------------------------------------------
-            - name: Create empty configuration file
-              shell: bash
-              run: |
-                  echo "PWD: ${PWD}"
-                  mkdir -p /home/runner/.config/ci-package
-                  cp /home/runner/work/cookiecutter-python/cookiecutter-python/ci-package/src/ci_package/default_config.toml /home/runner/.config/ci-package/config.toml
+            # - name: Create empty configuration file
+            #   shell: bash
+            #   run: |
+            #       echo "PWD: ${PWD}"
+            #       mkdir -p /home/runner/.config/ci-package
+            #       cp /home/runner/work/cookiecutter-python/cookiecutter-python/ci-package/src/ci_package/default_config.toml /home/runner/.config/ci-package/config.toml
 
             # ----------------------------------------------
             #    Test installed package
@@ -91,9 +93,11 @@ jobs:
             - name: Test `cli --version`
               shell: bash
               run: |
+                  poetry env use ${PWD}/ci-package/.venv/bin/python
                   poetry run ci-package --version
 
             - name: Run tests
               shell: bash
               run: |
+                  poetry env use ${PWD}/ci-package/.venv/bin/python
                   poetry run pytest tests/
