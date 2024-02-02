@@ -63,8 +63,8 @@ jobs:
             - name: Run cookiecutter create
               shell: bash
               run: |
-                  poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}"
-                  cd my-package
+                  poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}" package_name="testpackage"
+                  cd testpackage
                   echo "-----------> poetry info <-----------"
                   poetry env info
                   echo "-----------> poetry install <-----------"
@@ -74,7 +74,7 @@ jobs:
                   echo "-----------> poetry info <-----------"
                   poetry env info
                   echo "-----------> test installed package <-----------"
-                  poetry run my_package --version
+                  poetry run testpackage --version
                   poetry run pytest tests/
 
             # # ----------------------------------------------
