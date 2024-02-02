@@ -25,7 +25,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    test-cruft-create:
+    test-cookiecutter:
         runs-on: ubuntu-latest
         strategy:
             fail-fast: true
@@ -64,8 +64,12 @@ jobs:
               run: |
                   poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}"
                   cd my-package
-                  ls -al
                   poetry install
+                  ls -al
+                  echo "activate virtualenv"
+                  source .venv/bin/activate
+                  echo "installed packages"
+                  pip list
 
             # ----------------------------------------------
             #    Test installed package
