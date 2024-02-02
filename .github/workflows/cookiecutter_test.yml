@@ -62,9 +62,8 @@ jobs:
             - name: Run cookiecutter create
               shell: bash
               run: |
-                  mkdir test-package
-                  poetry run cookiecutter create --no-input --extra-context '{"python_version": "${{ matrix.python-version }}"}' ./test-package
-                  cd test-package
+                  poetry run cookiecutter create --no-input '{"python_version": "${{ matrix.python-version }}"}'
+                  cd my_package
                   ls -al
                   poetry install
 
