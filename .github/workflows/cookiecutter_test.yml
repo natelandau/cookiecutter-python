@@ -30,8 +30,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                # python-version: ["3.10", "3.11", "3.12"]
-                python-version: ["3.10"]
+                python-version: ["3.10", "3.11", "3.12"]
         name: Python ${{ matrix.python-version }}
 
         steps:
@@ -65,43 +64,14 @@ jobs:
               run: |
                   poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}" package_name="cipackage"
                   cd cipackage
-                  echo "-----------> poetry info <-----------"
-                  poetry env info
-                  echo "-----------> poetry install <-----------"
+                  echo "\n-----------> poetry install <-----------\n"
                   poetry install
-                  echo "-----------> activate virtualenv <-----------"
+                  echo "\n-----------> activate virtualenv <-----------\n"
                   poetry env use ${PWD}/.venv/bin/python
-                  echo "-----------> poetry info <-----------"
-                  poetry env info
-                  echo "-----------> copy config file so tests pass <-----------"
+                  echo "\n-----------> copy config file so tests pass <-----------\n"
                   mkdir -p /home/runner/.config/cipackage
                   cp src/cipackage/default_config.toml /home/runner/.config/cipackage/config.toml
                   echo "\n----------->run 'cli --version' <-----------\n"
                   poetry run cipackage --version
                   echo "\n----------->run pytests <-----------\n"
                   poetry run pytest tests/
-
-            # ----------------------------------------------
-            #    copy config file to runner so tests will pass
-            # ----------------------------------------------
-            # - name: Create empty configuration file
-            #   shell: bash
-            #   run: |
-            #       echo "PWD: ${PWD}"
-            #       mkdir -p /home/runner/.config/ci-package
-            #       cp /home/runner/work/cookiecutter-python/cookiecutter-python/ci-package/src/ci_package/default_config.toml /home/runner/.config/ci-package/config.toml
-
-            # ----------------------------------------------
-            #    Test installed package
-            # ----------------------------------------------
-            # - name: Test `cli --version`
-            #   shell: bash
-            #   run: |
-            #       poetry env use ${PWD}/cipackage/.venv/bin/python
-            #       poetry run cipackage --version
-
-            # - name: Run tests
-            #   shell: bash
-            #   run: |
-            #       poetry env use ${PWD}/cipackage/.venv/bin/python
-            #       poetry run pytest tests/
