@@ -62,7 +62,7 @@ jobs:
             - name: Run cookiecutter create
               shell: bash
               run: |
-                  poetry run cookiecutter create --no-input '{"python_version": "${{ matrix.python-version }}"}'
+                  poetry run cookiecutter create --no-input python_version=${{ matrix.python-version }}
                   cd my_package
                   ls -al
                   poetry install
