@@ -79,7 +79,7 @@ jobs:
             #    copy config file to runner so tests will pass
             # ----------------------------------------------
             - name: Create empty configuration file
-              run: mkdir -p /home/runner/.config/ci-package && cp ./src/ci_package/default_config.toml /home/runner/.config/ci-package/config.toml
+              run: mkdir -p /home/runner/.config/ci-package && cp src/ci_package/default_config.toml /home/runner/.config/ci-package/config.toml
 
             # ----------------------------------------------
             #    Test installed package
