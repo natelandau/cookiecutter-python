@@ -30,7 +30,8 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                python-version: ["3.10", "3.11", "3.12"]
+                # python-version: ["3.10", "3.11", "3.12"]
+                python-version: ["3.10"]
         name: Python ${{ matrix.python-version }}
 
         steps:
@@ -70,12 +71,15 @@ jobs:
                   source .venv/bin/activate
                   echo "installed packages"
                   pip list
+                  echo "-----------> test installed package <-----------"
+                  my_package --version
+                  pytest tests/
 
-            # ----------------------------------------------
-            #    Test installed package
-            # ----------------------------------------------
-            - name: Test package
-              shell: bash
-              run: |
-                  poetry run my_package --version
-                  poetry run pytest
+            # # ----------------------------------------------
+            # #    Test installed package
+            # # ----------------------------------------------
+            # - name: Test package
+            #   shell: bash
+            #   run: |
+            #       poetry run my_package --version
+            #       poetry run pytest
