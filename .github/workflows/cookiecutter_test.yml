@@ -65,10 +65,14 @@ jobs:
               run: |
                   poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}"
                   cd my-package
+                  echo "-----------> poetry info <-----------"
+                  poetry env info
                   echo "-----------> poetry install <-----------"
                   poetry install
                   echo "-----------> activate virtualenv <-----------"
-                  poetry shell
+                  poetry env use ${PWD}/.venv/bin/python
+                  echo "-----------> poetry info <-----------"
+                  poetry env info
                   echo "-----------> test installed package <-----------"
                   my_package --version
                   pytest tests/
