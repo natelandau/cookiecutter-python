@@ -1,5 +1,5 @@
 ---
-name: "Test Cruft Create"
+name: "Test Cookiecutter"
 
 on:
     workflow_dispatch:
@@ -74,8 +74,8 @@ jobs:
                   echo "-----------> poetry info <-----------"
                   poetry env info
                   echo "-----------> test installed package <-----------"
-                  my_package --version
-                  pytest tests/
+                  poetry run my_package --version
+                  poetry run pytest tests/
 
             # # ----------------------------------------------
             # #    Test installed package
