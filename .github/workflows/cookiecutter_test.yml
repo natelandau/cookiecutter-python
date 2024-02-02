@@ -63,8 +63,8 @@ jobs:
             - name: Run cookiecutter create
               shell: bash
               run: |
-                  poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}" package_name="ci_package"
-                  cd ci-package
+                  poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}" package_name="cipackage"
+                  cd cipackage
                   echo "-----------> poetry info <-----------"
                   poetry env info
                   echo "-----------> poetry install <-----------"
@@ -74,8 +74,8 @@ jobs:
                   echo "-----------> poetry info <-----------"
                   poetry env info
                   echo "-----------> copy config file so tests pass <-----------"
-                  mkdir -p /home/runner/.config/ci-package
-                  cp src/ci_package/default_config.toml /home/runner/.config/ci-package/config.toml
+                  mkdir -p /home/runner/.config/cipackage
+                  cp src/cipackage/default_config.toml /home/runner/.config/cipackage/config.toml
 
             # ----------------------------------------------
             #    copy config file to runner so tests will pass
@@ -93,11 +93,11 @@ jobs:
             - name: Test `cli --version`
               shell: bash
               run: |
-                  poetry env use ${PWD}/ci-package/.venv/bin/python
-                  poetry run ci-package --version
+                  poetry env use ${PWD}/cipackage/.venv/bin/python
+                  poetry run cipackage --version
 
             - name: Run tests
               shell: bash
               run: |
-                  poetry env use ${PWD}/ci-package/.venv/bin/python
+                  poetry env use ${PWD}/cipackage/.venv/bin/python
                   poetry run pytest tests/
