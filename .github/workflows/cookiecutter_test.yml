@@ -63,8 +63,8 @@ jobs:
             - name: Run cookiecutter create
               shell: bash
               run: |
-                  poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}" package_name="testpackage"
-                  cd testpackage
+                  poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}" package_name="ci_package"
+                  cd ci-package
                   echo "-----------> poetry info <-----------"
                   poetry env info
                   echo "-----------> poetry install <-----------"
@@ -74,14 +74,22 @@ jobs:
                   echo "-----------> poetry info <-----------"
                   poetry env info
                   echo "-----------> test installed package <-----------"
-                  poetry run testpackage --version
-                  poetry run pytest tests/
 
-            # # ----------------------------------------------
-            # #    Test installed package
-            # # ----------------------------------------------
-            # - name: Test package
-            #   shell: bash
-            #   run: |
-            #       poetry run my_package --version
-            #       poetry run pytest
+            # ----------------------------------------------
+            #    copy config file to runner so tests will pass
+            # ----------------------------------------------
+            - name: Create empty configuration file
+              run: mkdir -p /home/runner/.config/ci-package && cp ./src/ci-package/default_config.toml /home/runner/.config/ci-package/config.toml
+
+            # ----------------------------------------------
+            #    Test installed package
+            # ----------------------------------------------
+            - name: Test `cli --version`
+              shell: bash
+              run: |
+                  poetry run ci-package --version
+
+            - name: Run tests
+              shell: bash
+              run: |
+                  poetry run pytest tests/
