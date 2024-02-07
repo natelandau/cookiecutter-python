@@ -17,10 +17,12 @@ documentation:
     - changed-files:
           - any-glob-to-any-file: "**.md"
           - any-glob-to-any-file: "docs/**"
-python:
+{{ cookiecutter.__package_name_kebab_case }}:
     - changed-files:
           - any-glob-to-any-file: "src/**"
-          - any-glob-to-any-file: "tests/**"
+tests:
+    - changed-files:
+          - any-glob-to-any-file: "src/**"
 dependencies:
     - changed-files:
           - any-glob-to-any-file: "*.lock"
