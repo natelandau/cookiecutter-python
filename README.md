@@ -1,4 +1,4 @@
-[![Test Cruft Create](https://github.com/natelandau/cookiecutter-python/actions/workflows/cruft-test.yml/badge.svg)](https://github.com/natelandau/cookiecutter-python/actions/workflows/cruft-test.yml)
+[![Automated Tests](https://github.com/natelandau/cookiecutter-python/actions/workflows/cookiecutter_test.yml/badge.svg)](https://github.com/natelandau/cookiecutter-python/actions/workflows/cookiecutter_test.yml)
 
 # cookiecutter-python
 
