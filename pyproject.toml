@@ -9,7 +9,6 @@
     [tool.poetry.dependencies]
         commitizen   = "^3.13.0"
         cookiecutter = "^2.5.0"
-        cruft        = "^2.15.0"
         pre-commit   = "^3.6.0"
         python       = "^3.10"
         typos        = "^1.17.2"
