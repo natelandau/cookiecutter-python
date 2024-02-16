@@ -22,7 +22,7 @@ documentation:
           - any-glob-to-any-file: "src/**"
 tests:
     - changed-files:
-          - any-glob-to-any-file: "src/**"
+          - any-glob-to-any-file: "tests/**"
 dependencies:
     - changed-files:
           - any-glob-to-any-file: "*.lock"

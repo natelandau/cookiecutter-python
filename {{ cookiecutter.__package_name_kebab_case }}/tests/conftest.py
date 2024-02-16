@@ -6,8 +6,7 @@ from pathlib import Path
 import pytest
 from confz import DataSource, FileSource
 
-from {{ cookiecutter.__package_name_snake_case }}.config import {{ cookiecutter.__package_name_pascal_case }}Config
-from {{ cookiecutter.__package_name_snake_case }}.utils import console
+from {{ cookiecutter.__package_name_snake_case }}.utils import console, {{ cookiecutter.__package_name_pascal_case }}Config
 
 
 @pytest.fixture()
