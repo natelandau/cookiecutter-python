@@ -1,14 +1,17 @@
 """{{ cookiecutter.package_name }} CLI."""
 
+import shutil
 from pathlib import Path
 from typing import Annotated, Optional
 
 import typer
+from confz import validate_all_configs
 from loguru import logger
+from pydantic import ValidationError
 
 from {{ cookiecutter.__package_name_snake_case }}.__version__ import __version__
-from {{ cookiecutter.__package_name_snake_case }}.constants import APP_DIR
-from {{ cookiecutter.__package_name_snake_case }}.utils import console, edit_config, instantiate_logger, validate_config
+from {{ cookiecutter.__package_name_snake_case }}.constants import APP_DIR, CONFIG_PATH
+from {{ cookiecutter.__package_name_snake_case }}.utils import console, instantiate_logger
 
 app = typer.Typer(add_completion=False, no_args_is_help=True, rich_markup_mode="rich")
 app_dir = typer.get_app_dir("{{ cookiecutter.__package_name_snake_case }}")
@@ -24,14 +27,6 @@ def version_callback(value: bool) -> None:
 
 @app.command()
 def main(
-    edit_configuration: Annotated[
-        bool,
-        typer.Option(
-            "--edit-config",
-            help="Edit the configuration file",
-            show_default=True,
-        ),
-    ] = False,
     log_file: Annotated[
         Path,
         typer.Option(
@@ -74,11 +69,21 @@ def main(
     # Instantiate Logging
     instantiate_logger(verbosity, log_file, log_to_file)
 
-    if edit_configuration:
-        edit_config()
-        raise typer.Exit(0)
+    # Create a default configuration file if one does not exist
+    if not CONFIG_PATH.exists():
+        CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
+        default_config_file = Path(__file__).parent.resolve() / "default_config.toml"
+        shutil.copy(default_config_file, CONFIG_PATH)
+        logger.info(f"Created default configuration file: {CONFIG_PATH}")
 
-    validate_config()
+    # Load and validate configuration
+    try:
+        validate_all_configs()
+    except ValidationError as e:
+        logger.error(f"Invalid configuration file: {CONFIG_PATH}")
+        for error in e.errors():
+            console.print(f"           [red]{error['loc'][0]}: {error['msg']}[/red]")
+        raise typer.Exit(code=1) from e
 
     logger.debug("Debugging enabled")
     console.print(f"Starting {__package__} version: {__version__}")
