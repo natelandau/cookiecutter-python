@@ -42,7 +42,7 @@ To create a new Python project with this template:
     ```
 4. Go develop your project!
 
-# Developing
+### Developing
 
 1. Install project dependencies
 
