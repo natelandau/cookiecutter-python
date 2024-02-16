@@ -3,7 +3,7 @@
 
 from typer.testing import CliRunner
 
-from brewup.__version__ import __version__
+from {{ cookiecutter.__package_name_snake_case }}.__version__ import __version__
 from {{ cookiecutter.__package_name_snake_case }}.cli import app
 from {{ cookiecutter.__package_name_snake_case }}.utils import {{ cookiecutter.__package_name_pascal_case }}Config
 from tests.helpers import strip_ansi
