@@ -10,13 +10,14 @@ from loguru import logger
 from .console import console
 
 class LogLevel(Enum):
-    """Log levels for {{ cookiecutter.package_name }}."""
+    """Log levels."""
 
     INFO = 0
     DEBUG = 1
     TRACE = 2
     WARNING = 3
     ERROR = 4
+
 
 def log_formatter(record: dict) -> str:
     """Use rich to style log messages."""
@@ -44,15 +45,16 @@ def log_formatter(record: dict) -> str:
     lvl_color = color_map.get(name, "cyan")
     line_start = line_start_map.get(name, f"{name: <8} | ")
 
-    message = f"[{lvl_color}]{line_start}{{message}}[/{lvl_color}]"
+    msg = f"[{lvl_color}]{line_start}{{ '{{' }}message{{ '}}' }}[/{lvl_color}]"
     debug = f"[#c5c5c5]({record['name']}:{record['function']}:{record['line']})[/#c5c5c5]"
 
-    return f"{message} {debug}" if name in {"DEBUG", "TRACE"} else message
+    return f"{msg} {debug}" if name in {"DEBUG", "TRACE"} else msg
+
 
 def instantiate_logger(
     verbosity: int, log_file: Path, log_to_file: bool
 ) -> None:  # pragma: no cover
-    """Instantiate the Loguru logger for {{ cookiecutter.package_name }}.
+    """Instantiate the Loguru logger.
 
     Configure the logger with the specified verbosity level, log file path,
     and whether to log to a file.
