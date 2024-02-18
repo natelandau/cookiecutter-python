@@ -7,6 +7,7 @@ from pathlib import Path
 
 from loguru import logger
 
+from .console import console
 
 class LogLevel(Enum):
     """Log levels for {{ cookiecutter.package_name }}."""
@@ -17,6 +18,36 @@ class LogLevel(Enum):
     WARNING = 3
     ERROR = 4
 
+def log_formatter(record: dict) -> str:
+    """Use rich to style log messages."""
+    color_map = {
+        "TRACE": "turquoise2",
+        "DEBUG": "cyan",
+        "INFO": "bold",
+        "SUCCESS": "bold green",
+        "WARNING": "bold yellow",
+        "ERROR": "bold red",
+        "CRITICAL": "bold white on red",
+    }
+    line_start_map = {
+        "INFO": "",
+        "DEBUG": "🐞 ",
+        "TRACE": ":wrench: ",
+        "WARNING": "⚠️ ",
+        "SUCCESS": "✅ ",
+        "ERROR": "❌ ",
+        "CRITICAL": "💀 ",
+        "EXCEPTION": "",
+    }
+
+    name = record["level"].name
+    lvl_color = color_map.get(name, "cyan")
+    line_start = line_start_map.get(name, f"{name: <8} | ")
+
+    message = f"[{lvl_color}]{line_start}{{message}}[/{lvl_color}]"
+    debug = f"[#c5c5c5]({record['name']}:{record['function']}:{record['line']})[/#c5c5c5]"
+
+    return f"{message} {debug}" if name in {"DEBUG", "TRACE"} else message
 
 def instantiate_logger(
     verbosity: int, log_file: Path, log_to_file: bool
@@ -42,12 +73,10 @@ def instantiate_logger(
 
     logger.remove()
     logger.add(
-        sys.stdout,
+        console.print,
         level=LogLevel(level).name,
         colorize=True,
-        format="<level>{level: <8}</level> | <level>{message}</level> <fg #c5c5c5>({name}:{function}:{line})</fg #c5c5c5>"
-        if LogLevel(verbosity) in {LogLevel.DEBUG, LogLevel.TRACE}
-        else "<level>{level: <8}</level> | <level>{message}</level>",
+        format=log_formatter,  # type: ignore [arg-type]
     )
     if log_to_file:
         logger.add(
