@@ -34,16 +34,14 @@
         pytest-xdist           = "^3.3.1"
 
     [tool.poetry.group.dev.dependencies]
-        commitizen     = "^3.12.0"
-        coverage       = "^7.3.1"
-        mypy           = "^1.8.0"
-        pdoc           = "^14.0.0"
-        poethepoet     = "^0.24.2"
-        pre-commit     = "^3.5.0"
-        ruff           = "^0.2.0"
-        shellcheck-py  = "^0.9.0.5"
-        types-requests = "^2.31.0.20240106"
-        typos          = "^1.17.1"
+        commitizen = "^3.12.0"
+        coverage   = "^7.3.1"
+        mypy       = "^1.8.0"
+        pdoc       = "^14.0.0"
+        poethepoet = "^0.24.2"
+        pre-commit = "^3.5.0"
+        ruff       = "^0.2.2"
+        typos      = "^1.18.2"
 
 [tool.commitizen]
     bump_message = "bump(release): v$current_version → v$new_version"
@@ -152,28 +150,10 @@
     target-version = "py310"
 
     [tool.ruff.lint]
-        ignore = [
-            "B006",    # mutable-argument-default
-            "B008",    # function-call-in-default-argument
-            "D107",    # undocumented-public-init
-            "D213",    # multi-line-summary-second-line
-            "D215",    # section-underline-not-over-indented
-            "D406",    # new-line-after-section-name
-            "D407",    # dashed-underline-after-section
-            "D408",    # section-underline-after-name
-            "D409",    # section-underline-matches-section-length
-            "D413",    # blank-line-after-last-section
-            "E501",    # line-too-long
-            "ISC001",  # single-line-implicit-string-concatenation
-            "N805",    # invalid-first-argument-name-for-method
-            "PLR0913", # too-many-arguments
-            "S311",    # suspicious-non-cryptographic-random-usage
-            "UP007",   # non-pep604-annotation
-        ]
-        ignore-init-module-imports = true
         per-file-ignores = { "cli.py" = [
             "PLR0912",
             "PLR0913",
+            "PLR0917",
         ], "tests/*.py" = [
             "A002",
             "A003",
@@ -261,6 +241,25 @@
 
     [tool.poe.tasks.lint]
         help = "Lint this package"
+        ignore = [
+            "B006",    # mutable-argument-default
+            "B008",    # function-call-in-default-argument
+            "D107",    # undocumented-public-init
+            "D213",    # multi-line-summary-second-line
+            "D215",    # section-underline-not-over-indented
+            "D406",    # new-line-after-section-name
+            "D407",    # dashed-underline-after-section
+            "D408",    # section-underline-after-name
+            "D409",    # section-underline-matches-section-length
+            "D413",    # blank-line-after-last-section
+            "E501",    # line-too-long
+            "ISC001",  # single-line-implicit-string-concatenation
+            "N805",    # invalid-first-argument-name-for-method
+            "PLR0913", # too-many-arguments
+            "S311",    # suspicious-non-cryptographic-random-usage
+            "UP007",   # non-pep604-annotation
+        ]
+        ignore-init-module-imports = true
 
         [[tool.poe.tasks.lint.sequence]]
             shell = "ruff --preview --no-fix src/"
