@@ -9,8 +9,7 @@ from confz import validate_all_configs
 from loguru import logger
 from pydantic import ValidationError
 
-from {{ cookiecutter.__package_name_snake_case }}.__version__ import __version__
-from {{ cookiecutter.__package_name_snake_case }}.constants import APP_DIR, CONFIG_PATH
+from {{ cookiecutter.__package_name_snake_case }}.constants import APP_DIR, CONFIG_PATH, VERSION
 from {{ cookiecutter.__package_name_snake_case }}.utils import console, instantiate_logger
 
 app = typer.Typer(add_completion=False, no_args_is_help=True, rich_markup_mode="rich")
@@ -21,7 +20,7 @@ typer.rich_utils.STYLE_HELPTEXT = ""
 def version_callback(value: bool) -> None:
     """Print version and exit."""
     if value:
-        console.print(f"{__package__} version: {__version__}")
+        console.print(f"{__package__} version: {VERSION}")
         raise typer.Exit()
 
 
@@ -86,7 +85,7 @@ def main(
         raise typer.Exit(code=1) from e
 
     logger.debug("Debugging enabled")
-    console.print(f"Starting {__package__} version: {__version__}")
+    console.print(f"Starting {__package__} version: {VERSION}")
 
 
 if __name__ == "__main__":

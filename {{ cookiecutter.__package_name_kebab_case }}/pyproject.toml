@@ -44,15 +44,12 @@
         typos      = "^1.18.2"
 
 [tool.commitizen]
-    bump_message = "bump(release): v$current_version → v$new_version"
+    bump_message               = "bump(release): v$current_version → v$new_version"
     changelog_merge_prerelease = true
-    tag_format = "v$version"
-    update_changelog_on_bump = true
-    version = "0.0.0"
-    version_files = [
-        "pyproject.toml:version",
-        "src/{{ cookiecutter.__package_name_snake_case }}/__version__.py:__version__",
-    ]
+    tag_format                 = "v$version"
+    update_changelog_on_bump   = true
+    version_files              = ["src/{{ cookiecutter.__package_name_snake_case }}/constants.py:VERSION"]
+    version_provider           = "poetry"
 
 [tool.coverage.report] # https://coverage.readthedocs.io/en/latest/config.html#report
     exclude_lines = [
