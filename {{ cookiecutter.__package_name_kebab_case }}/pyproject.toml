@@ -144,9 +144,28 @@
     line-length    = 100
     output-format  = "grouped"
     src            = ["src", "tests"]
-    target-version = "py310"
+    target-version = "py{{ cookiecutter.python_version|replace('.', '') }}"
 
     [tool.ruff.lint]
+        ignore = [
+            "B006",    # mutable-argument-default
+            "B008",    # function-call-in-default-argument
+            "D107",    # undocumented-public-init
+            "D213",    # multi-line-summary-second-line
+            "D215",    # section-underline-not-over-indented
+            "D406",    # new-line-after-section-name
+            "D407",    # dashed-underline-after-section
+            "D408",    # section-underline-after-name
+            "D409",    # section-underline-matches-section-length
+            "D413",    # blank-line-after-last-section
+            "E501",    # line-too-long
+            "ISC001",  # single-line-implicit-string-concatenation
+            "N805",    # invalid-first-argument-name-for-method
+            "PLR0913", # too-many-arguments
+            "S311",    # suspicious-non-cryptographic-random-usage
+            "UP007",   # non-pep604-annotation
+        ]
+        ignore-init-module-imports = true
         per-file-ignores = { "cli.py" = [
             "PLR0912",
             "PLR0913",
@@ -154,6 +173,7 @@
         ], "tests/*.py" = [
             "A002",
             "A003",
+            "ARG002",
             "ARG005",
             "D102",
             "F403",
@@ -236,45 +256,23 @@
     """
         help = "Generate this package's docs"
 
-    [tool.poe.tasks.lint]
-        help = "Lint this package"
-        ignore = [
-            "B006",    # mutable-argument-default
-            "B008",    # function-call-in-default-argument
-            "D107",    # undocumented-public-init
-            "D213",    # multi-line-summary-second-line
-            "D215",    # section-underline-not-over-indented
-            "D406",    # new-line-after-section-name
-            "D407",    # dashed-underline-after-section
-            "D408",    # section-underline-after-name
-            "D409",    # section-underline-matches-section-length
-            "D413",    # blank-line-after-last-section
-            "E501",    # line-too-long
-            "ISC001",  # single-line-implicit-string-concatenation
-            "N805",    # invalid-first-argument-name-for-method
-            "PLR0913", # too-many-arguments
-            "S311",    # suspicious-non-cryptographic-random-usage
-            "UP007",   # non-pep604-annotation
-        ]
-        ignore-init-module-imports = true
+    [[tool.poe.tasks.lint.sequence]]
+        shell = "ruff --preview --no-fix src/"
 
-        [[tool.poe.tasks.lint.sequence]]
-            shell = "ruff --preview --no-fix src/"
+    [[tool.poe.tasks.lint.sequence]]
+        shell = "ruff format --check src/ tests/"
 
-        [[tool.poe.tasks.lint.sequence]]
-            shell = "ruff format --check src/ tests/"
+    [[tool.poe.tasks.lint.sequence]]
+        shell = "poetry check"
 
-        [[tool.poe.tasks.lint.sequence]]
-            shell = "poetry check"
+    [[tool.poe.tasks.lint.sequence]]
+        shell = "mypy --config-file pyproject.toml src/"
 
-        [[tool.poe.tasks.lint.sequence]]
-            shell = "mypy --config-file pyproject.toml src/"
+    [[tool.poe.tasks.lint.sequence]]
+        shell = "typos"
 
-        [[tool.poe.tasks.lint.sequence]]
-            shell = "typos"
-
-        [[tool.poe.tasks.lint.sequence]]
-            shell = "yamllint ."
+    [[tool.poe.tasks.lint.sequence]]
+        shell = "yamllint ."
 
 [tool.poe.tasks.test]
     help = "Test this package"

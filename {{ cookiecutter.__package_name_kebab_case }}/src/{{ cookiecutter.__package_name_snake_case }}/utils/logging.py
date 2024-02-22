@@ -9,6 +9,7 @@ from loguru import logger
 
 from .console import console
 
+
 class LogLevel(Enum):
     """Log levels."""
 
