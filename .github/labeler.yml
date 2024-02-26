@@ -15,12 +15,8 @@ configuration:
           - any-glob-to-any-file: "*.yml"
 documentation:
     - changed-files:
-          - any-glob-to-any-file: "**.md"
+          - any-glob-to-any-file: "README.md"
           - any-glob-to-any-file: "docs/**"
-python:
-    - changed-files:
-          - any-glob-to-any-file: "src/**"
-          - any-glob-to-any-file: "tests/**"
 dependencies:
     - changed-files:
           - any-glob-to-any-file: "*.lock"

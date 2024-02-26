@@ -34,26 +34,15 @@ jobs:
         name: Python ${{ matrix.python-version }}
 
         steps:
-            # ----------------------------------------------
-            #    Install python and checkout repository
-            # ----------------------------------------------
-            - name: Set up Python ${{ matrix.python-version }}
-              uses: actions/setup-python@v5
-              with:
-                  python-version: ${{ matrix.python-version }}
-
             - name: Checkout
               uses: actions/checkout@v4
 
             # ----------------------------------------------
-            #    Install poetry and project dependencies
+            #    Install python, poetry and project dependencies
             # ----------------------------------------------
 
             - name: Setup Python and Poetry
               uses: ./.github/actions/setup-poetry
-
-            - name: Install dependencies
-              run: poetry install
 
             # ----------------------------------------------
             #    Install poetry and project dependencies
@@ -62,7 +51,7 @@ jobs:
             - name: Run cookiecutter create
               shell: bash
               run: |
-                  poetry run cookiecutter --no-input . python_version="${{ matrix.python-version }}" package_name="cipackage"
+                  poetry run cookiecutter -v --no-input . python_version="${{ matrix.python-version }}" package_name="cipackage"
                   cd cipackage
                   echo "\n-----------> poetry install <-----------\n"
                   poetry install
