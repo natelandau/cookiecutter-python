@@ -1,4 +1,4 @@
-"""Logging utilities for {{ cookiecutter.package_name }}."""
+"""Logging utilities."""
 import contextlib
 import logging
 import sys
@@ -48,7 +48,7 @@ def log_formatter(record: dict) -> str:
     lvl_color = color_map.get(name, "bold")
     line_start = line_start_map.get(name, f"{name: <8} | ")
 
-    msg = f"[{lvl_color}]{line_start}{{message}}[/{lvl_color}]"
+    msg = f"[{lvl_color}]{line_start}{{ '{{' }}message{{ '}}' }}[/{lvl_color}]"
     func_trace = f"[#c5c5c5]({record['name']}:{record['function']}:{record['line']})[/#c5c5c5]"
 
     return f"{msg} {func_trace}" if name in {"DEBUG", "TRACE"} else msg
