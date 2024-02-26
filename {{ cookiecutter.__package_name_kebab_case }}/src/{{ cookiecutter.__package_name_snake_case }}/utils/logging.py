@@ -1,5 +1,5 @@
 """Logging utilities for {{ cookiecutter.package_name }}."""
-
+import contextlib
 import logging
 import sys
 from enum import Enum
@@ -25,6 +25,7 @@ def log_formatter(record: dict) -> str:
     color_map = {
         "TRACE": "turquoise2",
         "DEBUG": "cyan",
+        "DRYRUN": "bold blue",
         "INFO": "bold",
         "SUCCESS": "bold green",
         "WARNING": "bold yellow",
@@ -33,8 +34,9 @@ def log_formatter(record: dict) -> str:
     }
     line_start_map = {
         "INFO": "",
-        "DEBUG": "🐞 ",
-        "TRACE": ":wrench: ",
+        "DEBUG": "DEBUG | 🐞 ",
+        "DRYRUN": "DRYRUN| 👉 ",
+        "TRACE": "TRACE | 🔧 ",
         "WARNING": "⚠️ ",
         "SUCCESS": "✅ ",
         "ERROR": "❌ ",
@@ -43,13 +45,13 @@ def log_formatter(record: dict) -> str:
     }
 
     name = record["level"].name
-    lvl_color = color_map.get(name, "cyan")
+    lvl_color = color_map.get(name, "bold")
     line_start = line_start_map.get(name, f"{name: <8} | ")
 
-    msg = f"[{lvl_color}]{line_start}{{ '{{' }}message{{ '}}' }}[/{lvl_color}]"
-    debug = f"[#c5c5c5]({record['name']}:{record['function']}:{record['line']})[/#c5c5c5]"
+    msg = f"[{lvl_color}]{line_start}{{message}}[/{lvl_color}]"
+    func_trace = f"[#c5c5c5]({record['name']}:{record['function']}:{record['line']})[/#c5c5c5]"
 
-    return f"{msg} {debug}" if name in {"DEBUG", "TRACE"} else msg
+    return f"{msg} {func_trace}" if name in {"DEBUG", "TRACE"} else msg
 
 
 def instantiate_logger(
@@ -75,6 +77,10 @@ def instantiate_logger(
     level = verbosity if verbosity < 3 else 2  # noqa: PLR2004
 
     logger.remove()
+
+    with contextlib.suppress(TypeError): # Suppress error if DRYRUN is already defined (typically in tests)
+        logger.level("DRYRUN", no=20, color="<blue>", icon="👉")
+
     logger.add(
         console.print,
         level=LogLevel(level).name,
@@ -85,14 +91,14 @@ def instantiate_logger(
         logger.add(
             log_file,
             level=LogLevel(level).name,
-            format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message} ({name})",
+            format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message} ({name}:{function}:{line})",
             rotation="50 MB",
             retention=2,
             compression="zip",
         )
 
     if verbosity > 2:  # noqa: PLR2004
-        # Intercept standard sh logs and redirect to Loguru
+        # Intercept standard package logs and redirect to Loguru
         logging.getLogger("peewee").setLevel(level="DEBUG")
         logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)
 

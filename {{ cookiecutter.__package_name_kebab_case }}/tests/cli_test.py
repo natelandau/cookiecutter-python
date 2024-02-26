@@ -18,9 +18,9 @@ def test_version():
     assert f"{{ cookiecutter.__package_name_snake_case }} version: {VERSION}" in strip_ansi(result.output)
 
 
-def test_default_output(config_data):
+def test_default_output(mock_config):
     """Test printing version and then exiting."""
-    with {{ cookiecutter.__package_name_pascal_case }}Config.change_config_sources(config_data(key_one="edited")):
+    with {{ cookiecutter.__package_name_pascal_case }}Config.change_config_sources(mock_config(key_one="edited")):
         result = runner.invoke(app)
         assert result.exit_code == 0
         assert f"Starting {{ cookiecutter.__package_name_snake_case }} version: {VERSION}" in strip_ansi(result.output)

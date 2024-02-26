@@ -12,8 +12,12 @@ from pydantic import ValidationError
 from {{ cookiecutter.__package_name_snake_case }}.constants import APP_DIR, CONFIG_PATH, VERSION
 from {{ cookiecutter.__package_name_snake_case }}.utils import console, instantiate_logger
 
-app = typer.Typer(add_completion=False, no_args_is_help=True, rich_markup_mode="rich")
-app_dir = typer.get_app_dir("{{ cookiecutter.__package_name_snake_case }}")
+app = typer.Typer(
+    add_completion=False,
+    no_args_is_help=True,
+    rich_markup_mode="rich",
+    context_settings={"help_option_names": ["-h", "--help"]},
+)
 typer.rich_utils.STYLE_HELPTEXT = ""
 
 
@@ -83,6 +87,14 @@ def main(
         for error in e.errors():
             console.print(f"           [red]{error['loc'][0]}: {error['msg']}[/red]")
         raise typer.Exit(code=1) from e
+
+    # ##########################
+    # Uncomment this if you want to use custom data sources in the config
+    # ##########################
+    # Add cli arguments to the configuration
+    # new_config_data = {}
+    # with AppConfig.change_config_sources([FileSource(file=CONFIG_PATH), DataSource(data={})]):
+    #     console.print(AppConfig())
 
     logger.debug("Debugging enabled")
     console.print(f"Starting {__package__} version: {VERSION}")
