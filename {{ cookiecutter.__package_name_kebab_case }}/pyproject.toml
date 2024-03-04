@@ -14,7 +14,7 @@
     version     = "0.0.0"
 
     [tool.poetry.scripts] # https://python-poetry.org/docs/pyproject/#scripts
-        {{ cookiecutter.__package_name_kebab_case }} = "{{ cookiecutter.__package_name_snake_case }}.cli:app"
+        {{ cookiecutter.__package_name_kebab_case }} = "{{ cookiecutter.__package_name_snake_case }}.{{ cookiecutter.__package_name_snake_case }}:app"
 
     [tool.poetry.dependencies]
         confz  = "^2.0.1"
@@ -40,7 +40,7 @@
         pdoc       = "^14.0.0"
         poethepoet = "^0.24.2"
         pre-commit = "^3.5.0"
-        ruff       = "^0.2.2"
+        ruff       = "^0.3.0"
         typos      = "^1.18.2"
 
 [tool.commitizen]
@@ -117,29 +117,6 @@
     xfail_strict   = true
 
 [tool.ruff] # https://github.com/charliermarsh/ruff
-    exclude = [
-        ".bzr",
-        ".direnv",
-        ".eggs",
-        ".git",
-        ".hg",
-        ".mypy_cache",
-        ".nox",
-        ".pants.d",
-        ".pytype",
-        ".ruff_cache",
-        ".svn",
-        ".tox",
-        ".venv",
-        "__pypackages__",
-        "_build",
-        "buck-out",
-        "build",
-        "dist",
-        "node_modules",
-        "venv",
-    ]
-
     fix            = true
     line-length    = 100
     output-format  = "grouped"
@@ -166,7 +143,7 @@
             "UP007",   # non-pep604-annotation
         ]
         ignore-init-module-imports = true
-        per-file-ignores = { "cli.py" = [
+        per-file-ignores = { "{{ cookiecutter.__package_name_snake_case }}.py" = [
             "PLR0912",
             "PLR0913",
             "PLR0917",
@@ -258,7 +235,7 @@
         help = "Generate this package's docs"
 
     [[tool.poe.tasks.lint.sequence]]
-        shell = "ruff --preview --no-fix src/"
+        shell = "ruff check --preview --no-fix src/"
 
     [[tool.poe.tasks.lint.sequence]]
         shell = "ruff format --check src/ tests/"

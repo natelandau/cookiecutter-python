@@ -22,5 +22,4 @@
     bump_message             = "bump(release): v$current_version → v$new_version"
     tag_format               = "v$version"
     update_changelog_on_bump = true
-    version_files            = ["pyproject.toml:version"]
     version_provider         = "poetry"
