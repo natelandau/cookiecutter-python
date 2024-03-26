@@ -54,7 +54,7 @@ def mock_config():
     Usage:
         def test_something(mock_config):
             # Override the configuration with specific values
-            with {{ cookiecutter.__package_name_pascal_case }}Config.change_config_sources(config_data(some_key="some_value")):
+            with {{ cookiecutter.__package_name_pascal_case }}Config.change_config_sources(mock_config(some_key="some_value")):
                     # Test the functionality
                     result = do_something()
                     assert result

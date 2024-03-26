@@ -1,10 +1,11 @@
 [tool.poetry]
-    authors     = ["Nathaniel Landau <github@natenate.org>"]
-    description = "Personal Cookiecutter template for Python projects"
-    license     = "AGPL-3.0-or-later"
-    name        = "cookiecutter-python"
-    readme      = "README.md"
-    version     = "0.1.0"
+    authors      = ["Nathaniel Landau <github@natenate.org>"]
+    description  = "Personal Cookiecutter template for Python projects"
+    license      = "AGPL-3.0-or-later"
+    name         = "cookiecutter-python"
+    package-mode = false
+    readme       = "README.md"
+    version      = "0.1.0"
 
     [tool.poetry.dependencies]
         commitizen   = "^3.13.0"

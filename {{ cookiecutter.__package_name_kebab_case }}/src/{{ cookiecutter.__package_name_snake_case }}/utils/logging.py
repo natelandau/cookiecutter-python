@@ -23,7 +23,7 @@ class LogLevel(Enum):
 def log_formatter(record: dict) -> str:
     """Use rich to style log messages."""
     color_map = {
-        "TRACE": "turquoise2",
+        "TRACE": "turquoise4",
         "DEBUG": "cyan",
         "DRYRUN": "bold blue",
         "INFO": "bold",
