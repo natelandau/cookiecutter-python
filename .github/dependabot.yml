@@ -9,4 +9,10 @@ updates:
       commit-message:
           prefix: "ci"
           prefix-development: "ci"
-          include: "scope"
+          include: scope
+      reviewers:
+          - "natelandau"
+      groups:
+          ci-dependencies:
+              patterns:
+                  - "*"
