@@ -2,8 +2,8 @@
 
 import sys
 
-app_name = "{{cookiecutter.app_name}}"
-if not app_name:
+project_name = "{{cookiecutter.project_name}}"
+if not project_name:
     print("ERROR: The app name is required")
     sys.exit(1)
 

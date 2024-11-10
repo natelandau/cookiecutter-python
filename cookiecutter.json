@@ -1,14 +1,24 @@
 {
-    "app_name": "",
+    "project_name": "",
     "description": "",
-    "hyphenated": "{{ '-'.join(cookiecutter['app_name'].lower().split()).replace('_', '-') }}",
+    "hyphenated": "{{ '-'.join(cookiecutter['project_name'].lower().split()).replace('_', '-') }}",
     "underscored": "{{ cookiecutter.hyphenated.replace('-', '_') }}",
     "capwords": "{{ cookiecutter.underscored.split('_') | map('capitalize') | join }}",
     "github_username": "",
     "author_name": "",
     "author_email": "",
     "python_version": "3.13",
+    "include_github_actions": ["y", "n"],
     "publish_to_pypi": ["y", "n"],
     "publish_docker_image": ["y", "n"],
-    "include_github_actions": ["y", "n"]
+    "__prompts__": {
+        "project_name": "Human-readable name for your project",
+        "description": "Short description of your project",
+        "github_username": "GitHub username or organization (leave blank if not publishing to GitHub)",
+        "author_name": "Author full name",
+        "author_email": "Author email",
+        "include_github_actions": "Include GitHub Actions for CI/CD?",
+        "publish_to_pypi": "Publish to PyPI",
+        "publish_docker_image": "Publish to GitHub Container Registry?"
+    }
 }

@@ -14,11 +14,11 @@ from tests.utils import file_contains_text, run_within_dir
     "context",
     [
         {
-            "app_name": "my-project",
+            "project_name": "my-project",
             "author_name": "Test Author",
         },
         {
-            "app_name": "my-project",
+            "project_name": "my-project",
             "author_email": "test@example.com",
         },
     ],
@@ -29,24 +29,26 @@ def test_hooks_dont_pass(cookies, context) -> None:
     assert result.exit_code == -1
 
 
-def test_bake_project(debug, cookies) -> None:  # noqa: ARG001
+def test_bake_project(debug, cookies) -> None:
     """Test that the project is created successfully with the given context."""
     # Given: A cookiecutter template
     # When: Baking the project with a custom project name
     result = cookies.bake(
         extra_context={
-            "app_name": "my project",
+            "project_name": "my project",
             "author_name": "Test Author",
             "author_email": "test@example.com",
         }
     )
+
+    debug(result.context)
 
     # Then: Project should be created successfully with the correct name
     assert result.exit_code == 0
     assert result.exception is None
     assert result.project_path.name == "my-project"
     assert result.context == {
-        "app_name": "my project",
+        "project_name": "my project",
         "description": "",
         "hyphenated": "my-project",
         "publish_docker_image": "y",
@@ -62,14 +64,14 @@ def test_bake_project(debug, cookies) -> None:  # noqa: ARG001
     assert result.project_path.is_dir()
 
 
-def test_venv_and_lint(cookies, tmp_path):
-    """Test that the venv and linting tools run successfully in the created project."""
+def test_installed_project(cookies, tmp_path):
+    """Test that the project is installed successfully by installing the virtual environment, running the cli, and running tests."""
     # Given: A temporary directory and cookiecutter template
     with run_within_dir(tmp_path):
         # When: Baking the project with default settings
         result = cookies.bake(
             extra_context={
-                "app_name": "my project",
+                "project_name": "my project",
                 "author_name": "Test Author",
                 "author_email": "test@example.com",
             }
@@ -92,31 +94,6 @@ def test_venv_and_lint(cookies, tmp_path):
             assert subprocess.check_call(shlex.split("mypy --config-file pyproject.toml src/")) == 0
             assert subprocess.check_call(shlex.split("typos")) == 0
             assert subprocess.check_call(shlex.split("yamllint .")) == 0
-
-
-def test_pytest(cookies, tmp_path):
-    """Test that pytest runs successfully in the created project."""
-    # Given: A temporary directory and cookiecutter template
-    with run_within_dir(tmp_path):
-        # When: Baking the project with default settings
-        result = cookies.bake(
-            extra_context={
-                "app_name": "my project",
-                "author_name": "Test Author",
-                "author_email": "test@example.com",
-            }
-        )
-
-        # Then: Project should be created successfully
-        assert result.exit_code == 0
-        assert result.exception is None
-        assert result.project_path.name == "my-project"
-        assert result.project_path.is_dir()
-        # assert is_valid_yaml(result.project_path / ".github" / "workflows" / "main.yml")
-
-        # And: Tests should run successfully in the created project
-        with run_within_dir(str(result.project_path)):
-            assert subprocess.check_call(shlex.split("uv sync")) == 0
             assert subprocess.check_call(shlex.split("uv run pytest tests/")) == 0
 
 
@@ -127,7 +104,7 @@ def test_not_github_actions(cookies, tmp_path):
         # When: Baking the project with devcontainer disabled
         result = cookies.bake(
             extra_context={
-                "app_name": "my project",
+                "project_name": "my project",
                 "author_name": "Test Author",
                 "author_email": "test@example.com",
                 "include_github_actions": "n",
