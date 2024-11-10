@@ -1,10 +1,8 @@
-[![Automated Tests](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml/badge.svg)](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/natelandau/cookiecutter-python/blob/master/LICENSE)
+# Cookiecutter Python CLI Template
 
-[![Changelog](https://img.shields.io/github/v/release/natelandau/cookiecutter-python?include_prereleases&label=changelog)](https://github.com/natelandau/cookiecutter-python/releases)
+[![Automated Tests](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml/badge.svg)](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/natelandau/cookiecutter-python/blob/master/LICENSE) [![Changelog](https://img.shields.io/github/v/release/natelandau/cookiecutter-python?include_prereleases&label=changelog)](https://github.com/natelandau/cookiecutter-python/releases)
 
-# cookiecutter-python
-
-Personal and opinionated Cookiecutter template for creating Python CLIs with [Typer](https://typer.tiangolo.com/).
+Personal and opinionated [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for creating Python CLI applications with [Typer](https://typer.tiangolo.com/) and [uv](https://github.com/astral-sh/uv).
 
 ## Features
 
