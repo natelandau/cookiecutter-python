@@ -33,7 +33,10 @@ jobs:
               run: |
                   uv run pre-commit run -a yamllint
                   uv run pre-commit run -a typos
-                  uv run pre-commit run -a pre-commit-hooks
+                  uv run pre-commit run -a check-json
+                  uv run pre-commit run -a check-toml
+                  uv run pre-commit run -a check-xml
+                  uv run pre-commit run -a check-shebang-scripts-are-executable
 
             - name: Check lock file consistency
               run: uv sync --locked
