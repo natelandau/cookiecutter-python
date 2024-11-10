@@ -1,4 +1,4 @@
-from __future__ import annotations
+"""Validate the cookiecutter context."""
 
 import sys
 

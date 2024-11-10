@@ -9,5 +9,6 @@
     "author_email": "",
     "python_version": "3.13",
     "publish_to_pypi": ["y", "n"],
-    "publish_docker_image": ["y", "n"]
+    "publish_docker_image": ["y", "n"],
+    "include_github_actions": ["y", "n"]
 }
