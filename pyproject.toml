@@ -7,7 +7,7 @@
     name            = "cookiecutter-python"
     readme          = "README.md"
     requires-python = ">=3.13"
-    version         = "0.1.0"
+    version         = "0.2.0"
     [project.urls]
         homepage   = "https://github.com/natelandau/cookiecutter-python"
         repository = "https://github.com/natelandau/cookiecutter-python"
