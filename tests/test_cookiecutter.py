@@ -50,6 +50,8 @@ def test_bake_project(debug, cookies) -> None:  # noqa: ARG001
         "app_name": "my project",
         "description": "",
         "hyphenated": "my-project",
+        "publish_docker_image": "y",
+        "publish_to_pypi": "y",
         "underscored": "my_project",
         "capwords": "MyProject",
         "github_username": "",

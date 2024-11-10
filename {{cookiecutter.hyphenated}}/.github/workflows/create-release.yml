@@ -73,7 +73,7 @@ jobs:
                   make_latest: true
               env:
                   GITHUB_TOKEN: ${{ '{{' }} secrets.GITHUB_TOKEN }}
-
+{%- if cookiecutter.publish_docker_image == "y" %}
     build-and-push-docker-image:
         needs: create-gh-release
         runs-on: ubuntu-latest
@@ -126,7 +126,8 @@ jobs:
                   tags: ${{ '{{' }} steps.meta.outputs.tags }}
                   labels: ${{ '{{' }} steps.meta.outputs.labels }}
                   outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Valentina Noir Disord bot
-
+{% endif %}
+{%- if cookiecutter.publish_to_pypi == "y" %}
     publish-to-pypi:
         runs-on: ubuntu-latest
         strategy:
@@ -154,3 +155,4 @@ jobs:
             - name: Upload to PyPi
               shell: bash
               run: uvx twine upload dist/*
+{%- endif %}
