@@ -18,7 +18,7 @@ jobs:
     quality:
         runs-on: ubuntu-latest
         steps:
-            - name: Check out
+            - name: Checkout repository
               uses: actions/checkout@v4
 
             - uses: actions/cache@v4
@@ -27,7 +27,7 @@ jobs:
                   key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
 
             - name: Set up the environment
-              uses: ./.github/setup-python-env
+              uses: ./.github/actions/setup_python_env
 
             - name: Run pre-commit
               run: uv run pre-commit run -a --show-diff-on-failure
@@ -45,11 +45,11 @@ jobs:
             run:
                 shell: bash
         steps:
-            - name: Check out
+            - name: Checkout repository
               uses: actions/checkout@v4
 
             - name: Set up the environment
-              uses: ./.github/setup-python-env
+              uses: ./.github/actions/setup_python_env
               with:
                   python-version: ${{ matrix.python-version }}
 
