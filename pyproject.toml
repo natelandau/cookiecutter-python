@@ -1,26 +1,201 @@
-[tool.poetry]
-    authors      = ["Nathaniel Landau <github@natenate.org>"]
-    description  = "Personal Cookiecutter template for Python projects"
-    license      = "AGPL-3.0-or-later"
-    name         = "cookiecutter-python"
-    package-mode = false
-    readme       = "README.md"
-    version      = "0.1.0"
-
-    [tool.poetry.dependencies]
-        commitizen   = "^3.13.0"
-        cookiecutter = "^2.5.0"
-        pre-commit   = "^3.6.0"
-        python       = "^3.10"
-        typos        = "^1.17.2"
-        yamllint     = "^1.33.0"
-
-[build-system]
-    build-backend = "poetry.core.masonry.api"
-    requires      = ["poetry-core"]
+[project]
+    authors         = [{ name = "Nate Landau", email = "github@natenate.org" }]
+    classifiers     = ["License :: OSI Approved :: Apache Software License"]
+    dependencies    = ["cookiecutter>=2.6.0"]
+    description     = "Personal Cookiecutter template for Python projects"
+    license         = { text = "Apache-2.0" }
+    name            = "cookiecutter-python"
+    readme          = "README.md"
+    requires-python = ">=3.13"
+    version         = "0.1.0"
+    [project.urls]
+        homepage   = "https://github.com/natelandau/cookiecutter-python"
+        repository = "https://github.com/natelandau/cookiecutter-python"
 
 [tool.commitizen]
-    bump_message             = "bump(release): v$current_version → v$new_version"
-    tag_format               = "v$version"
-    update_changelog_on_bump = true
-    version_provider         = "poetry"
+    bump_message               = "bump(release): v$current_version → v$new_version"
+    changelog_merge_prerelease = true
+    tag_format                 = "v$version"
+    update_changelog_on_bump   = true
+    version                    = "0.1.0"
+    version_provider           = "pep621"
+
+[dependency-groups]
+dev = [
+        "commitizen>=3.30.0",
+        "coverage>=7.6.4",
+        "mypy>=1.13.0",
+        "poethepoet>=0.29.0",
+        "pre-commit>=4.0.1",
+        "pytest-cookies>=0.7.0",
+        "pytest>=8.3.3",
+        "rich>=13.9.4",
+        "ruff>=0.7.3",
+        "types-pyyaml>=6.0.12.20240917",
+        "typos>=1.27.3",
+        "yamllint>=1.35.1",
+]
+
+[tool.coverage.report] # https://coverage.readthedocs.io/en/latest/config.html#report
+    exclude_lines = [
+        'def __repr__',
+        'except [\w\s\._]+ as .*:',
+        'log\.critical',
+        'log\.debug',
+        'log\.error',
+        'log\.exception',
+        'log\.info',
+        'log\.success',
+        'log\.trace',
+        'log\.warning',
+        'pragma: no cover',
+        'raise Abort',
+        'raise Exit',
+        'raise typer\.Exit',
+    ]
+    fail_under = 50
+    precision = 1
+    show_missing = true
+    skip_covered = true
+    skip_empty = true
+
+[tool.coverage.run]
+    branch       = true
+    command_line = "--module pytest"
+    data_file    = "reports/.coverage"
+    omit         = ["tests/*"]
+    source       = ["src"]
+
+[tool.coverage.xml]
+    output = "reports/coverage.xml"
+
+[tool.deptry]
+    known_first_party = ["{{ cookiecutter.underscored }}"]
+
+[tool.mypy] # https://mypy.readthedocs.io/en/latest/config_file.html
+    disallow_any_unimported     = false
+    disallow_subclassing_any    = false
+    disallow_untyped_decorators = false
+    disallow_untyped_defs       = true
+    exclude                     = ['tests/']
+    follow_imports              = "normal"
+    ignore_missing_imports      = true
+    junit_xml                   = "reports/mypy.xml"
+    no_implicit_optional        = true
+    pretty                      = false
+    show_column_numbers         = true
+    show_error_codes            = true
+    show_error_context          = true
+    strict_optional             = false
+    warn_redundant_casts        = true
+    warn_unreachable            = true
+    warn_unused_ignores         = true
+
+[tool.pytest.ini_options]
+
+    addopts        = "--color=yes --doctest-modules --exitfirst --failed-first --strict-config --strict-markers --junitxml=reports/pytest.xml --ignore=src/valentina/discord/cogs/test_cog.py"
+    filterwarnings = ["error", "ignore::DeprecationWarning"]
+    markers        = ["serial"]
+    testpaths      = ["tests"]
+    xfail_strict   = true
+
+[tool.ruff] # https://github.com/charliermarsh/ruff
+
+    exclude = [
+        ".bzr",
+        ".direnv",
+        ".eggs",
+        ".git",
+        ".hg",
+        ".mypy_cache",
+        ".nox",
+        ".pants.d",
+        ".pytype",
+        ".ruff_cache",
+        ".svn",
+        ".tox",
+        ".venv",
+        "__pypackages__",
+        "_build",
+        "buck-out",
+        "build",
+        "dist",
+        "node_modules",
+        # "src/valentina/discord/cogs/test_cog.py",
+        "venv",
+    ]
+    fix = true
+    line-length = 100
+    output-format = "grouped"
+    src = ["src", "tests"]
+    target-version = "py311"
+    [tool.ruff.lint]
+        ignore = [
+            "ANN001", # Missing type annotation for function argument `cls`
+            "ANN002", # Missing type annotation for `*args`
+            "ANN003", # Missing type annotation for `**kwargs`
+            "ANN204", # Missing return type annotation for special method `__init__`
+            "ANN401", # Dynamically typed expressions (typing.Any) are disallowed,
+            "B006",   # mutable-argument-default
+            "B008",   # function-call-in-default-argument
+            "COM812", # Missing trailing comma
+            "CPY001", # Missing copyright notice at top of file
+            "D107",   # undocumented-public-init
+            "D203",   # one-blank-line-before-class
+            "D213",   # multi-line-summary-second-line
+            "D404",   # docstring-starts-with-this
+            "D406",   # new-line-after-section-name
+            "D407",   # dashed-underline-after-section
+            "D408",   # section-underline-after-name
+            "D409",   # section-underline-matches-section-length
+            "D413",   # blank-line-after-last-section
+            "E501",   # line-too-long
+            "FBT001", # Boolean-typed positional argument in function definition
+            "FBT002", # Boolean-typed positional argument in function definition
+            "FIX002", # Line contains TODO, consider resolving the issue"
+            "ISC001", # single-line-implicit-string-concatenation
+            "N805",   # invalid-first-argument-name-for-method
+            "PD011",  # Use `.to_numpy()` instead of `.values`"
+            "RSE102", # Unnecessary parentheses on raised exception"
+            "S311",   # suspicious-non-cryptographic-random-usage
+            "S603",   #`subprocess` call: check for execution of untrusted input
+            "TD001",  # invalid-todo-tag
+            "TD002",  # Missing author in TODO
+            "TD003",  # Missing issue link on the line following this TODO
+            "UP007",  # non-pep604-annotation
+        ]
+        per-file-ignores = { "tests/*.py" = [
+            "ANN201",  # Missing return type annotation
+            "ANN202",  # Missing return type annotation
+            "ERA001",  # Commented out code
+            "PGH003",  # blanket-type-ignore
+            "PLR0913", # too-many-arguments
+            "S101",    # Use assert
+        ] }
+        select = ["ALL"]
+        unfixable = ["D103", "ERA001", "F401", "F841", "UP007"]
+
+        [tool.ruff.lint.mccabe]
+            max-complexity = 10
+
+        [tool.ruff.lint.pydocstyle]
+            convention = "google"
+
+        [tool.ruff.lint.pylint]
+            max-args = 6
+
+[tool.ruff.format]
+    indent-style              = "space"
+    line-ending               = "auto"
+    quote-style               = "double"
+    skip-magic-trailing-comma = false
+
+[tool.poe.tasks]
+    [tool.poe.tasks.upgrade]
+        help = "Upgrade packages and pre-commit hooks"
+        shell = """
+        echo "-- Upgrading packages --" &&
+        uv lock --upgrade &&
+        echo "-- Autoupdating pre-commit --" &&
+        pre-commit autoupdate
+        """

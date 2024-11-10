@@ -1,0 +1,57 @@
+---
+name: Main
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened]
+    push:
+        branches: [main]
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
+permissions: # https://github.com/step-security/secure-workflows
+    contents: read
+
+jobs:
+    quality:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out
+              uses: actions/checkout@v4
+
+            - uses: actions/cache@v4
+              with:
+                  path: ~/.cache/pre-commit
+                  key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+
+            - name: Set up the environment
+              uses: ./.github/actions/setup-python-env
+
+            - name: Run pre-commit
+              run: uv run pre-commit run -a --show-diff-on-failure
+
+            - name: Check lock file consistency
+              run: uv sync --locked
+
+    tests-and-type-check:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+            fail-fast: false
+        defaults:
+            run:
+                shell: bash
+        steps:
+            - name: Check out
+              uses: actions/checkout@v4
+
+            - name: Set up the environment
+              uses: ./.github/actions/setup-python-env
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - name: Run tests
+              run: uv run poe test

@@ -1,64 +1,80 @@
 ---
-default_install_hook_types: [commit-msg, pre-commit]
+# https://pre-commit.com
+default_install_hook_types: [pre-commit, pre-push, commit-msg]
 default_stages: [pre-commit, manual]
 fail_fast: true
 repos:
   - repo: "https://github.com/commitizen-tools/commitizen"
-    rev: v3.30.0 # automatically updated by Commitizen
+    rev: v3.27.0
     hooks:
       - id: commitizen
       - id: commitizen-branch
         stages:
           - post-commit
-          - pre-push
+          - push
+
+  - repo: "https://github.com/pre-commit/pygrep-hooks"
+    rev: v1.10.0
+    hooks:
+      - id: python-check-mock-methods
+      - id: python-no-eval
+      - id: python-no-log-warn
+      - id: python-use-type-annotations
+      - id: rst-backticks
+      - id: rst-directive-colons
+      - id: rst-inline-touching-normal
+      - id: text-unicode-replacement-char
 
   - repo: "https://github.com/pre-commit/pre-commit-hooks"
     rev: v5.0.0
     hooks:
       - id: check-added-large-files
       - id: check-ast
-        exclude: '\{\{.*'
       - id: check-builtin-literals
-        exclude: '\{\{.*'
       - id: check-case-conflict
       - id: check-docstring-first
-        exclude: '\{\{.*'
       - id: check-json
-        exclude: '\{\{.*'
+        exclude: .devcontainer/|.vscode/
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
       - id: check-symlinks
       - id: check-toml
-        exclude: '\{\{.*'
       - id: check-vcs-permalinks
       - id: check-xml
-        exclude: '\{\{.*'
+      - id: check-yaml
       - id: debug-statements
-        exclude: '\{\{.*'
       - id: detect-private-key
       - id: fix-byte-order-marker
       - id: mixed-line-ending
-        exclude: '\{\{.*'
       - id: trailing-whitespace
         types: [python]
-        exclude: '\{\{.*'
         args: [--markdown-linebreak-ext=md]
       - id: end-of-file-fixer
         types: [python]
-        exclude: '\{\{.*'
 
   - repo: "https://github.com/adrienverge/yamllint.git"
     rev: v1.35.1
     hooks:
       - id: yamllint
-        exclude: '^\{\{.*'
-        files: \.(yaml|yml)$
+        files: ^.*\.(yaml|yml)$
         entry: yamllint --strict --config-file .yamllint.yml
+
+  - repo: "https://github.com/charliermarsh/ruff-pre-commit"
+    rev: "v0.7.3"
+    hooks:
+      - id: ruff
+        exclude: tests/
+      - id: ruff-format
 
   - repo: "https://github.com/crate-ci/typos"
     rev: typos-dict-v0.11.35
     hooks:
       - id: typos
+
+  - repo: "https://github.com/fpgmaas/deptry.git"
+    rev: "0.21.0"
+    hooks:
+      - id: deptry
 
   - repo: local
     hooks:
@@ -74,21 +90,26 @@ repos:
 
       - id: shellcheck
         name: shellcheck
-        entry: shellcheck --check-sourced -e SC1009 -e SC1054 -e SC1073 -e SC1083 -e SC1056 -e SC1072
+        entry: shellcheck --check-sourced --severity=warning
         language: system
         types: [shell]
 
+      - id: mypy
+        name: mypy
+        entry: mypy --config-file pyproject.toml
+        exclude: tests/
+        language: system
+        types: [python]
+
       - id: pytest
         name: pytest
-        entry: pytest tests/
+        entry: poe test
         language: system
         pass_filenames: false
         files: |
           (?x)^(
-          \{\{cookiecutter\.hyphenated\}\}/|
+          src/|
           tests/|
-          uv\.lock|
-          pyproject\.toml|
-          cookiecutter\.json|
-          \.github/
+          poetry\.lock|
+          pyproject\.toml
           )

@@ -1,12 +1,11 @@
 {
-  "package_name": "My Package",
-  "package_description": "A Python package that ...",
-  "package_url": "https://some.url/to/the/package.git",
-  "author_name": "John Smith",
-  "author_email": "john@example.com",
-  "python_version": "3.11",
-  "__package_name_kebab_case": "{{ cookiecutter.package_name|slugify }}",
-  "__package_name_snake_case": "{{ cookiecutter.package_name|slugify(separator='_') }}",
-  "__package_name_pascal_case": "{{ cookiecutter.__package_name_kebab_case.split('-')|map('capitalize')|join }}",
-  "_jinja2_env_vars": {"lstrip_blocks": true, "trim_blocks": true}
+    "app_name": "",
+    "description": "",
+    "hyphenated": "{{ '-'.join(cookiecutter['app_name'].lower().split()).replace('_', '-') }}",
+    "underscored": "{{ cookiecutter.hyphenated.replace('-', '_') }}",
+    "capwords": "{{ cookiecutter.underscored.split('_') | map('capitalize') | join }}",
+    "github_username": "",
+    "author_name": "",
+    "author_email": "",
+    "python_version": "3.13"
 }
