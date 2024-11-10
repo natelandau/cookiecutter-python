@@ -1,4 +1,6 @@
-[![Automated Tests](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml/badge.svg)](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml)[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/natelandau/cookiecutter-python/blob/master/LICENSE)
+[![Automated Tests](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml/badge.svg)](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/natelandau/cookiecutter-python/blob/master/LICENSE)
+
+[![Changelog](https://img.shields.io/github/v/release/natelandau/cookiecutter-python?include_prereleases&label=changelog)](https://github.com/natelandau/cookiecutter-python/releases)
 
 # cookiecutter-python
 
