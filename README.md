@@ -1,4 +1,6 @@
-[![Automated Tests](https://github.com/natelandau/cookiecutter-python/actions/workflows/cookiecutter_test.yml/badge.svg)](https://github.com/natelandau/cookiecutter-python/actions/workflows/cookiecutter_test.yml)
+[![Automated Tests](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml/badge.svg)](https://github.com/natelandau/cookiecutter-python/actions/workflows/main.yml)
+
+[License](https://github.com/natelandau/cookiecutter-python/blob/master/LICENSE)
 
 # cookiecutter-python
 
