@@ -21,7 +21,7 @@
     version_provider           = "pep621"
 
 [dependency-groups]
-dev = [
+    dev = [
         "commitizen>=3.30.0",
         "coverage>=7.6.4",
         "mypy>=1.13.0",
@@ -34,7 +34,7 @@ dev = [
         "types-pyyaml>=6.0.12.20240917",
         "typos>=1.27.3",
         "yamllint>=1.35.1",
-]
+    ]
 
 [tool.coverage.report] # https://coverage.readthedocs.io/en/latest/config.html#report
     exclude_lines = [
@@ -199,3 +199,7 @@ dev = [
         echo "-- Autoupdating pre-commit --" &&
         pre-commit autoupdate
         """
+
+    [tool.poe.tasks.test]
+        cmd  = "pytest -svvv tests/"
+        help = "Test this package"
