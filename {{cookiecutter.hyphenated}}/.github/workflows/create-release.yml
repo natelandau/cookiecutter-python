@@ -12,7 +12,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    create-gh-release:
+    auto-release:
         name: Create Release
         runs-on: "ubuntu-latest"
         permissions:
@@ -25,6 +25,10 @@ jobs:
 
             - name: Setup Python, uv, and the package
               uses: ./.github/actions/setup_python_env
+
+            - name: Run tests
+              shell: bash
+              run: uv run poe test
 
             # ----------------------------------------------
             #    Grab version number
@@ -75,7 +79,7 @@ jobs:
                   GITHUB_TOKEN: ${{ '{{' }} secrets.GITHUB_TOKEN }}
 {%- if cookiecutter.publish_docker_image == "y" %}
     build-and-push-docker-image:
-        needs: create-gh-release
+        needs: auto-release
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -86,10 +90,6 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
-
-            # ----------------------------------------------
-            # Publish the Docker container to the registry
-            # ----------------------------------------------
 
             - name: Extract metadata (tags, labels) for Docker
               id: meta
@@ -129,6 +129,7 @@ jobs:
 {% endif %}
 {%- if cookiecutter.publish_to_pypi == "y" %}
     publish-to-pypi:
+        needs: auto-release
         runs-on: ubuntu-latest
         strategy:
             fail-fast: true
@@ -140,13 +141,6 @@ jobs:
 
             - name: Setup Python, uv, and the package
               uses: ./.github/actions/setup_python_env
-
-            # ----------------------------------------------
-            # Run tasks
-            # ----------------------------------------------
-            - name: Run tests
-              shell: bash
-              run: uv run pytest tests/
 
             - name: Build the package
               shell: bash
