@@ -42,4 +42,15 @@ uv sync
 source .venv/bin/activate
 ```
 
+## Configuring CI workflows
+
+Built-in workflows are configured for linting, testing, and optionally publishing to PyPI and GitHub Container Registry. Be certain to review the workflows to remove any steps that are not desired.
+
+### PyPI Publishing
+
+To publish to PyPI, two GitHub Actions secrets need to be set:
+
+-   `TWINE_USERNAME`: If using a username/password for PyPI, your PyPI username. If using an API token, set this to `__token__`.
+-   `TWINE_PASSWORD`: Your PyPI password or API token.
+
 Enjoy!

@@ -17,7 +17,7 @@ permissions:
     statuses: write # for amannn/action-semantic-pull-request to mark status of analyzed PR
 
 concurrency:
-    group: ${{ '{{' }} github.workflow }}-${{ '{{' }} github.ref }}
+    group: ${{ '{{' }} github.workflow }}-${{ '{{' }} github.event.pull_request.number || github.ref }}
     cancel-in-progress: true
 
 jobs:

@@ -12,7 +12,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    auto-release:
+    autorelease:
         name: Create Release
         runs-on: "ubuntu-latest"
         permissions:
@@ -79,7 +79,7 @@ jobs:
                   GITHUB_TOKEN: ${{ '{{' }} secrets.GITHUB_TOKEN }}
 {%- if cookiecutter.publish_docker_image == "y" %}
     build-and-push-docker-image:
-        needs: auto-release
+        needs: autorelease
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -129,8 +129,11 @@ jobs:
 {% endif %}
 {%- if cookiecutter.publish_to_pypi == "y" %}
     publish-to-pypi:
-        needs: auto-release
+        needs: autorelease
         runs-on: ubuntu-latest
+        env:
+            TWINE_USERNAME: ${{ '{{' }} secrets.TWINE_USERNAME }}
+            TWINE_PASSWORD: ${{ '{{' }} secrets.TWINE_PASSWORD }}
         strategy:
             fail-fast: true
             matrix:

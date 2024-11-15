@@ -26,6 +26,15 @@ python -m pip install --user {{cookiecutter.project_name}}
 {{cookiecutter.project_name}} --help
 ```
 
+### File Locations
+
+{{cookiecutter.project_name}} uses the [XDG specification](https://specifications.freedesktop.org/basedir-spec/latest/) for determining the locations of configuration files, logs, data, and caches.
+
+-   Configuration file: `~/.config/{{cookiecutter.hyphenated}}/config.toml`
+-   Logs: `~/.local/state/{{cookiecutter.hyphenated}}/{{cookiecutter.hyphenated}}.log`
+-   Cache: `~/.cache/{{cookiecutter.hyphenated}}`
+-   Data: `~/.local/share/{{cookiecutter.hyphenated}}`
+
 # Contributing
 
 ## Setup
